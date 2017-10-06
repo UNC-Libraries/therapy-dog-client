@@ -6,7 +6,6 @@ help:
 run-client: ## Run the client in development mode
 	cd client && npm start
 
-
 deps: ## Install dependencies for the client and API server
 	cd client && npm install
 

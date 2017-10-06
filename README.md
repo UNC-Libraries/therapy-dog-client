@@ -20,17 +20,15 @@ Install Dependencies:
 
     make deps
 
-Copy the example forms and vocabularies:
-
-    make examples
-
-Start the API server:
-
-    make run-server
-
-In a separate terminal, start the client:
+Start the client:
 
     make run-client
+
+This application also requires the therapy-dog server app. 
+In a separate terminal, clone that app and follow its readme to for installing it. 
+Then start the API server:
+
+    make run-server
 
 Visit <http://localhost:4200/forms/test-form> in your browser.
 
@@ -42,17 +40,15 @@ Rather than installing dependencies using `make deps` as above:
 
     cd client && npm install
 
-Copy the example forms and vocabularies:
+ start the client:
 
-    make examples
+    make run-client
 
-Start the API server:
+This application also requires the therapy-dog server app.
+In a separate terminal, start the API server:
 
     make run-server
 
-In a separate terminal, start the client:
-
-    make run-client
 
 Visit <http://localhost:4200/forms/test-form> in your browser.
 
@@ -74,7 +70,8 @@ This runs JSDoc, saving the output in the server/docs directory.
 
 ### If `make` is unavailable
 
-Copy the example forms and vocabularies:
+This application also requires the therapy-dog server app. Make sure 
+ the example forms and vocabularies are copied into place:
 
     cp server/data/forms/article.json.example server/data/forms/article.json
     cp server/data/forms/catalog.json.example server/data/forms/catalog.json
@@ -84,26 +81,23 @@ Copy the example forms and vocabularies:
     cp server/data/vocabularies/language.json.example server/data/vocabularies/language.json
     cp server/data/vocabularies/role.json.example server/data/vocabularies/role.json
 
-Start the API server:
-
-    cd server && npm start
-
-In a separate terminal, start the client:
+Start the client:
 
     cd client && npm start
 
+In a separate terminal, start the API server:
+
+    cd server && npm start
+
 ## Check before you commit
 
-We don't have CI set up yet, so always run `make check` before committing.
+Run `ember test --server or in a browser go to http://localhost:4200/tests (Runs client side integration tests)` before committing.
 
 ## How to add dependencies
 
 The source code for some dependencies is added to the repository:
 
   - for the client, Bower components and anything in the vendor/ directory
-  - for the server, production npm dependencies (those listed in server/package.json under "dependencies")
-
-We don't add the source code for development npm dependencies (those listed in server/package.json under "devDependencies"), which are anything we need for development (for example, running tests) but not for actually running the client or server.
 
 Add or remove dependencies separately from code changes. This makes reviewing a merge request a little easier, since we can look at our own code in separate commits.
 
@@ -125,22 +119,8 @@ Add or remove dependencies separately from code changes. This makes reviewing a 
     git add vendor/normalize.css
     git commit -m "Add 'normalize.css' vendor dependency to client."
 
-### To add a production npm dependency to server
-
-    npm install --save archiver
-    git add package.json node_modules/archiver
-    git commit -m "Add 'archiver' dependency to server."
-
-### To add a development npm dependency to server
-
-    npm install --save-dev xmldom
-    echo "node_modules/xmldom" >> .gitignore
-    git add package.json .gitignore
-    git commit -m "Add 'xmldom' devDependency to server."
-
 ### How to run tests
 
-    make check (Runs server side unit tests)
     ember test --server or in a browser go to http://localhost:4200/tests (Runs client side integration tests)
     
 ### License Information
