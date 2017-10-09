@@ -1,3 +1,18 @@
 npm-debug.log
 .DS_Store
 */node_modules
+
+# compiled output
+client/dist
+client/tmp
+
+# dependencies
+client/node_modules
+
+# misc
+client/.sass-cache
+client/connect.lock
+client/coverageclient/*
+client/libpeerconnection.log
+client/npm-debug.log
+client/testem.log

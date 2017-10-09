@@ -1,5 +1,3 @@
-.PHONY: help run-client examples deps check
-
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
@@ -11,3 +9,6 @@ deps: ## Install dependencies for the client and API server
 
 check: ## Run code style checks, linting, and unit tests.
 	cd client && jshint app
+
+test: ## Run tests
+    cd client && ember test
