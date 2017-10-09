@@ -1,4 +1,4 @@
-# Therapy Dog (Deposit Forms)
+# Therapy Dog - Client (Deposit Forms)
 
 This is a Node.js and Ember application that provides:
 
@@ -6,17 +6,9 @@ This is a Node.js and Ember application that provides:
   - an expression language for mapping form input to MODS and other XML schemas, and
   - routines for packaging and submitting METS deposits to the CDR.
 
-## Setup for development
+## Setup for client for development
 
-Install Node.js.
-
-If you are using Homebrew on macOS:
-
-    brew install node4-lts
-
-If you are using Git for Windows, install Node.js using the v4.x.x LTS package available at <https://nodejs.org/en/>.
-
-Install Dependencies:
+Install Client Dependencies:
 
     make deps
 
@@ -32,9 +24,7 @@ Then start the API server:
 
 Visit <http://localhost:4200/forms/test-form> in your browser.
 
-## Setup for building forms only (not doing development)
-
-Install Node.js as above.
+## Setup for building client for forms only (not doing development)
 
 Rather than installing dependencies using `make deps` as above:
 
@@ -45,7 +35,7 @@ Rather than installing dependencies using `make deps` as above:
     make run-client
 
 This application also requires the therapy-dog server app.
-In a separate terminal, start the API server:
+In a separate terminal install and start the API server:
 
     make run-server
 
@@ -58,22 +48,12 @@ See server side application to generate documentation.
 
 ### If `make` is unavailable
 
-This application also requires the therapy-dog server app. Make sure 
- the example forms and vocabularies are copied into place:
-
-    cp server/data/forms/article.json.example server/data/forms/article.json
-    cp server/data/forms/catalog.json.example server/data/forms/catalog.json
-    cp server/data/forms/test-form.json.example server/data/forms/test-form.json
-    cp server/data/vocabularies/genre.json.example server/data/vocabularies/genre.json
-    cp server/data/vocabularies/genre.json.example server/data/vocabularies/issuance.json
-    cp server/data/vocabularies/language.json.example server/data/vocabularies/language.json
-    cp server/data/vocabularies/role.json.example server/data/vocabularies/role.json
-
 Start the client:
 
     cd client && npm start
 
-In a separate terminal, start the API server:
+This application also requires the therapy-dog server app.
+In a separate terminal install and start the API server:
 
     cd server && npm start
 
@@ -81,7 +61,7 @@ In a separate terminal, start the API server:
 
 Run `ember test --server or in a browser go to http://localhost:4200/tests (Runs client side integration tests)` before committing.
 
-## How to add dependencies
+## How to add dependencies to client
 
 The source code for some dependencies is added to the repository:
 
