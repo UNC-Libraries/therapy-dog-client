@@ -11,4 +11,4 @@ check: ## Run code style checks, linting, and unit tests.
 	cd client && jshint app
 
 test: ## Run tests
-    cd client && ember test
+	cd client && ember test
