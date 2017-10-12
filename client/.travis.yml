@@ -1,7 +1,15 @@
 ---
+addons:
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
+
 language: node_js
+
 node_js:
-  - "0.12"
+  - "4"
 
 sudo: false
 
@@ -10,7 +18,10 @@ cache:
     - node_modules
 
 before_install:
+  # setting the path for phantom.js 2.0.0
   - export PATH=/usr/local/phantomjs-2.0.0/bin:$PATH
+  # starting a GUI to run tests, per https://docs.travis-ci.com/user/gui-and-headless-browsers/#Using-xvfb-to-Run-Tests-That-Require-a-GUI
+  - export DISPLAY=:99.0
   - "npm config set spin false"
   - "npm install -g npm@^2"
 
@@ -20,4 +31,8 @@ install:
   - bower install
 
 script:
-  - npm test
+  - ember test --server
+
+notifications:
+  slack:
+    secure: BXw3zt45l8M4Uu0rzyu4DhEza3PcXEw4eMrd+G9KLYFw039/XLPAhPOhcTrShRp8RR2e85NaTw5hJjl7chSpah+PvM9oLPV/yuwf6Wo9BZtSh1eFd+GWOWYyWlIALjUyDRQbqrrGM70aIky1gCGkb+93pJtJfyYWBW3TMWngYDQ=
