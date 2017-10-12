@@ -1,18 +1,19 @@
 npm-debug.log
 .DS_Store
+.idea
 */node_modules
 
 # compiled output
-client/dist
-client/tmp
+dist
+tmp
 
 # dependencies
-client/node_modules
+node_modules
 
 # misc
-client/.sass-cache
-client/connect.lock
-client/coverageclient/*
-client/libpeerconnection.log
-client/npm-debug.log
-client/testem.log
+.sass-cache
+connect.lock
+coverageclient/*
+libpeerconnection.log
+ppm-debug.log
+testem.log
