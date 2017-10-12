@@ -8,6 +8,8 @@ This is a Node.js and Ember application that provides:
 
 ## Setup for client for development
 
+#### Note: This application also requires [therapy-dog-server](https://github.com/UNC-Libraries/therapy-dog-server) to work correctly.
+
 Install Client Dependencies:
 
     make deps
