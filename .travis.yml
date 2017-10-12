@@ -26,9 +26,15 @@ before_install:
   - "npm install -g npm@^2"
 
 install:
+  - cd client
   - npm install -g bower
   - npm install
   - bower install
 
 script:
+  - cd client
   - ember test --server
+
+notifications:
+  slack:
+    secure: BXw3zt45l8M4Uu0rzyu4DhEza3PcXEw4eMrd+G9KLYFw039/XLPAhPOhcTrShRp8RR2e85NaTw5hJjl7chSpah+PvM9oLPV/yuwf6Wo9BZtSh1eFd+GWOWYyWlIALjUyDRQbqrrGM70aIky1gCGkb+93pJtJfyYWBW3TMWngYDQ=
