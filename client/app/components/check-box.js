@@ -19,7 +19,7 @@ export default Ember.Component.extend({
   attributeBindings: ['checked', 'type', 'value'],
 
   checked: Ember.computed('value', 'groupValue', function() {
-    return this.get('groupValue').contains(this.get('value'));
+    return this.get('groupValue').includes(this.get('value'));
   }),
 
   change: function () {
