@@ -18,8 +18,9 @@ export default Ember.Component.extend({
   entryEvents: Ember.inject.service(),
 
   classNames: ['block', 'section'],
-  classNameBindings: ['repeat'],
+  classNameBindings: ['repeat', 'displayed-inline'],
   repeat: Ember.computed.alias('entry.block.repeat'),
+  "displayed-inline": Ember.computed.alias('entry.block.displayInline'),
 
   didReceiveAttrs() {
     this._super(...arguments);
@@ -29,10 +30,6 @@ export default Ember.Component.extend({
         this.set('entry.value', [this.createBlankEntry()]);
       }
     }
-
-   /* if (this.get('entry.block.displayInline')) {
-      this.classNames.push('displayed-inline');
-    } */
   },
 
   createBlankEntry() {
