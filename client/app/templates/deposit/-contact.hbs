@@ -6,16 +6,8 @@
   {{/if}}
 {{else}}
   {{#if model.result.success}}
-    {{#if model.result.admin}}
-      <span class="contact-description">If you have any questions, please <a target="_blank" href="http://blogs.lib.unc.edu/cdr/index.php/contact-us/">contact us</a>.</span>
-    {{else}}
-      <span class="contact-description">If you have any questions, please <a href="http://blogs.lib.unc.edu/cdr/index.php/contact-us/">contact us</a>.</span>
-    {{/if}}
+    <span class="contact-description">If you have any questions, please <a target="_blank" href="http://blogs.lib.unc.edu/cdr/index.php/contact-us/">contact us</a>.</span>
   {{else}}
-    {{#if model.result.admin}}
-      <span>If the problem persists or you have any questions, please <a target="_blank" href="http://blogs.lib.unc.edu/cdr/index.php/contact-us/">contact us</a>.</span>
-    {{else}}
-      <span>If the problem persists or you have any questions, please <a href="http://blogs.lib.unc.edu/cdr/index.php/contact-us/">contact us</a>.</span>
-    {{/if}}
+    <span>If the problem persists or you have any questions, please <a target="_blank" href="http://blogs.lib.unc.edu/cdr/index.php/contact-us/">contact us</a>.</span>
   {{/if}}
 {{/if}}
