@@ -25,7 +25,7 @@ export default Ember.Component.extend(FocusEntryAction, {
   required: Ember.computed.alias('entry.required'),
   invalid: Ember.computed.alias('entry.invalid'),
   isMultiple: Ember.computed.alias('entry.block.multiple'),
-  
+
   uploader: Ember.inject.service(),
 
   didReceiveAttrs() {
@@ -38,16 +38,29 @@ export default Ember.Component.extend(FocusEntryAction, {
     }
   },
 
+  /**
+   * Adds referrer link to "contact us" link in the footer.
+   * It's added here because it's the only form element that's in every form.
+   * Otherwise we'd need to add a property to every form.
+   */
+  addFooter: function() {
+    let url = location.href;
+    // Remove any parameters or hash tags
+    let shortenedUrl = encodeURIComponent(url.split(/\?|#/)[0]);
+    let link = document.getElementById('referrer');
+    link.href = 'http://blogs.lib.unc.edu/cdr/index.php/contact-us/?refer=' + shortenedUrl;
+  }.on('didInsertElement'),
+
   acceptsNewUpload: Ember.computed('uploads.length', 'isMultiple', function() {
     let count = this.get('uploads.length'), multiple = this.get('isMultiple');
-    
+
     if (!multiple && count > 0) {
       return false;
     } else {
       return true;
     }
   }),
-  
+
   uploadFile: function(file) {
     let upload = this.get('uploader').upload(file);
 
@@ -81,7 +94,7 @@ export default Ember.Component.extend(FocusEntryAction, {
       });
     }
   },
-  
+
   removeUpload(upload) {
     let uploads = this.get('uploads');
     let removedIndex = uploads.indexOf(upload);
@@ -99,7 +112,7 @@ export default Ember.Component.extend(FocusEntryAction, {
       } else if (removedIndex < uploads.length) {
         focusIndex = removedIndex;
       }
-      
+
       Ember.run.next(this, function() {
         if (focusIndex === -1) {
           this.$('input').focus();
@@ -146,11 +159,11 @@ export default Ember.Component.extend(FocusEntryAction, {
     focusEntry() {
       this.$('input').focus();
     },
-    
+
     focusInput() {
       this.$('.choose-file-wrapper').addClass('file-input-focus');
     },
-    
+
     blurInput() {
       this.$('.choose-file-wrapper').removeClass('file-input-focus');
     }
