@@ -36,23 +36,23 @@ module.exports = function(defaults) {
   // modules that you would like to import into your application
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
-  
+
   app.import('vendor/normalize.css');
-  
+
   app.import(path.join(app.bowerDirectory, 'DOMPurify/dist/purify.min.js'));
-  
+
   app.import(path.join(app.bowerDirectory, 'jquery-ui/jquery-ui.js'));
-  app.import(path.join(app.bowerDirectory, 'jquery-ui/ui/datepicker.js'));
-  app.import(path.join(app.bowerDirectory, 'jquery-ui/ui/autocomplete.js'));
+  app.import(path.join(app.bowerDirectory, 'jquery-ui/ui/widgets/datepicker.js'));
+  app.import(path.join(app.bowerDirectory, 'jquery-ui/ui/widgets/autocomplete.js'));
   app.import(path.join(app.bowerDirectory, 'jquery-ui/themes/base/jquery-ui.css'));
-  
+
   app.import(path.join(app.bowerDirectory, 'moment/moment.js'));
-  
+
   var imagesDir = path.join(app.bowerDirectory, 'jquery-ui/themes/base/images');
   fs.readdirSync(imagesDir).forEach(function(file) {
     app.import(path.join(imagesDir, file), { destDir: "/assets/images" });
   });
-  
+
   app.import('vendor/tag-it/js/tag-it.js');
   app.import('vendor/tag-it/css/jquery.tagit.css');
 

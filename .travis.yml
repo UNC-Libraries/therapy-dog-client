@@ -10,7 +10,7 @@ language: node_js
 node_js:
   - "4"
 env:
-    - EMBER_VERSION=2.4.3
+    - EMBER_VERSION=2.11.1
 
 matrix:
   fast_finish: true
@@ -28,6 +28,7 @@ before_install:
     - "npm config set spin false"
     - "npm install -g npm@^2"
 install:
+    - npm install babel-plugin-transform-es2015-block-scoping
     - npm install -g bower
     - make deps
 script:
