@@ -2,7 +2,7 @@
   "name": "therapy-dog",
   "dependencies": {
     "jquery": "~3.2.1",
-    "jquery-ui": "~1.11.4",
+    "jquery-ui": "~1.12.1",
     "ember-qunit-notifications": "0.1.0",
     "DOMPurify": "^0.7.4",
     "moment": "^2.13.0"
