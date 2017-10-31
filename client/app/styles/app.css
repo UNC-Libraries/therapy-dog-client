@@ -339,6 +339,7 @@ html, body {
   max-height: 200px;
   overflow-y: auto;
   overflow-x: hidden;
+  width: 600px !important;
   text-wrap: none;
 }
 
