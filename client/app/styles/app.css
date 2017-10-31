@@ -340,6 +340,7 @@ html, body {
   max-height: 200px;
   overflow-y: auto;
   overflow-x: hidden;
+  width: 600px !important;
 }
 
 .section.repeat .block.text textarea {
@@ -613,7 +614,7 @@ fieldset legend {
   border: 1px solid #ccc;
   display: flex;
   padding: 4px;
-  
+
   align-content: center;
   align-items: center;
   justify-content: flex-start;
