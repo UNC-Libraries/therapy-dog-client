@@ -22,7 +22,7 @@ export default Ember.Component.extend(FocusEntryAction, {
 
   didReceiveAttrs() {
     this._super(...arguments);
-    
+
     if (Ember.isBlank(this.get('entry.value'))) {
       this.set('entry.value', this.get('entry.block.defaultValue') || '');
     }
@@ -32,9 +32,17 @@ export default Ember.Component.extend(FocusEntryAction, {
     this._super(...arguments);
 
     let options = this.get('entry.block.options');
+
     if (Ember.isArray(options)) {
-      this.$('.autocomplete').autocomplete({
+      let self = this;
+      let autoComplete = this.$('.autocomplete');
+
+      autoComplete.autocomplete({
         source: options
+      });
+
+      autoComplete.on( "autocompleteopen", function(event, ui) {
+        self.$('ul.ui-menu').css('min-width', '500px');
       });
     }
   },
@@ -47,7 +55,7 @@ export default Ember.Component.extend(FocusEntryAction, {
       this.$('.autocomplete').autocomplete('destroy');
     }
   },
-  
+
   actions: {
     focusEntry: function() {
       this.$('input').focus();
