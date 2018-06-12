@@ -17,3 +17,6 @@ import {
 } from 'ember-qunit';
 
 setResolver(resolver);
+
+import { start } from 'ember-cli-qunit';
+start();
