@@ -8,7 +8,7 @@ addons:
       - google-chrome-stable
 language: node_js
 node_js:
-  - "8"
+  - "9"
 env:
     - EMBER_VERSION=2.11.1
 
