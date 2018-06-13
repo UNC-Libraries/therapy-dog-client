@@ -95,8 +95,8 @@ export default Ember.Service.extend({
           hide : (!sendEmailReceipt) ? true : false
         });
 
-        if (response.meta.email) {
-          depositorEmailBlock.set('defaultValue', response.meta.email);
+        if (response.meta.forwardedMail) {
+          depositorEmailBlock.set('defaultValue', response.meta.forwardedMail);
         }
 
         if (ENV.APP.spoofMail) {
