@@ -48,7 +48,7 @@ export default Ember.Component.extend(FocusEntryAction, {
     // Remove any parameters or hash tags
     let shortenedUrl = encodeURIComponent(url.split(/\?|#/)[0]);
     let link = document.getElementById('referrer');
-    link.href = 'http://blogs.lib.unc.edu/cdr/index.php/contact-us/?refer=' + shortenedUrl;
+    link.href = 'https://library.unc.edu/wilson/contact/?refer=' + shortenedUrl;
   }.on('didInsertElement'),
 
   acceptsNewUpload: Ember.computed('uploads.length', 'isMultiple', function() {
