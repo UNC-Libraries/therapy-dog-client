@@ -92,7 +92,7 @@ export default Ember.Service.extend({
           key: DEPOSITOR_EMAIL_KEY,
           label: 'Depositor\'s Email Address',
           required: true,
-          hide : (!sendEmailReceipt) ? true : false
+          hide : !sendEmailReceipt
         });
 
         if (response.meta.mail) {
@@ -114,7 +114,7 @@ export default Ember.Service.extend({
           entry: ObjectEntry.create({ block: form }),
           depositor: depositor
         });
-        
+
         resolve(deposit);
       })
       .fail(function(jqXHR, textStatus, errorThrown) {
@@ -122,7 +122,7 @@ export default Ember.Service.extend({
       });
     });
   },
-  
+
   submit(deposit) {
     let payload = buildPayload(deposit);
     let depositCollection = location.href;
@@ -137,13 +137,13 @@ export default Ember.Service.extend({
       addAnotherText: addAnotherText,
       sendEmailReceipt: payload.sendEmailReceipt
     };
-    
+
     return new Ember.RSVP.Promise(function(resolve) {
       let headers = {};
       if (ENV.APP.spoofRemoteUser) {
         headers['remote_user'] = ENV.APP.spoofRemoteUser;
       }
-    
+
       $.ajax('/' + ENV.APP.apiNamespace + '/deposits', {
         method: 'POST',
         contentType: 'application/json',
@@ -160,16 +160,16 @@ export default Ember.Service.extend({
       });
     });
   },
-  
+
   debug(deposit) {
     let payload = buildPayload(deposit);
-    
+
     return new Ember.RSVP.Promise(function(resolve, reject) {
       let headers = {};
       if (ENV.APP.spoofRemoteUser) {
         headers['remote_user'] = ENV.APP.spoofRemoteUser;
       }
-    
+
       $.ajax('/' + ENV.APP.apiNamespace + '/deposits/debug', {
         method: 'POST',
         contentType: 'application/json',

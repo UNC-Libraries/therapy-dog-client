@@ -1,10 +1,8 @@
 {
   "name": "therapy-dog",
   "dependencies": {
-    "jquery": "~3.2.1",
     "jquery-ui": "~1.12.1",
-    "ember-qunit-notifications": "0.1.0",
-    "DOMPurify": "^0.7.4",
-    "moment": "^2.21.0"
+    "DOMPurify": "^2.0.12",
+    "moment": "^2.27.0"
   }
 }

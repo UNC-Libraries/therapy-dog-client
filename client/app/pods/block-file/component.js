@@ -12,9 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 import Ember from 'ember';
+import jQuery from 'jquery';
+import Component from '@ember/component';
 import FocusEntryAction from 'therapy-dog/mixins/focus-entry-action';
 
-export default Ember.Component.extend(FocusEntryAction, {
+export default Component.extend(FocusEntryAction, {
   init() {
     this._super(...arguments);
     this.set('uploads', []);
@@ -73,7 +75,7 @@ export default Ember.Component.extend(FocusEntryAction, {
 
       if (!this.get('isMultiple')) {
         Ember.run.scheduleOnce('afterRender', this, function() {
-          this.$('button').focus();
+          jQuery('button').focus();
         });
       }
     });
@@ -81,7 +83,7 @@ export default Ember.Component.extend(FocusEntryAction, {
     upload.on('error', () => {
       if (!this.get('isMultiple')) {
         Ember.run.scheduleOnce('afterRender', this, function() {
-          this.$('button').focus();
+          jQuery('button').focus();
         });
       }
     });
@@ -90,7 +92,7 @@ export default Ember.Component.extend(FocusEntryAction, {
 
     if (!this.get('isMultiple')) {
       Ember.run.scheduleOnce('afterRender', this, function() {
-        this.$('button').focus();
+        jQuery('button').focus();
       });
     }
   },
@@ -102,7 +104,7 @@ export default Ember.Component.extend(FocusEntryAction, {
 
     if (!this.get('isMultiple')) {
       Ember.run.scheduleOnce('afterRender', this, function() {
-        this.$('input[type="file"]').focus();
+        jQuery('input[type="file"]').focus();
       });
     } else {
       let focusIndex = -1;
@@ -115,9 +117,9 @@ export default Ember.Component.extend(FocusEntryAction, {
 
       Ember.run.next(this, function() {
         if (focusIndex === -1) {
-          this.$('input').focus();
+          jQuery('input').focus();
         } else {
-          this.$('.upload').eq(focusIndex).find('button, input').eq(0).focus();
+          jQuery('.upload').eq(focusIndex).find('button, input').eq(0).focus();
         }
       });
     }
@@ -157,15 +159,15 @@ export default Ember.Component.extend(FocusEntryAction, {
     },
 
     focusEntry() {
-      this.$('input').focus();
+      jQuery('input').focus();
     },
 
     focusInput() {
-      this.$('.choose-file-wrapper').addClass('file-input-focus');
+      jQuery('.choose-file-wrapper').addClass('file-input-focus');
     },
 
     blurInput() {
-      this.$('.choose-file-wrapper').removeClass('file-input-focus');
+      jQuery('.choose-file-wrapper').removeClass('file-input-focus');
     }
   }
 });

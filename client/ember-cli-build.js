@@ -48,7 +48,7 @@ module.exports = function(defaults) {
 
   app.import(path.join(app.bowerDirectory, 'moment/moment.js'));
 
-  var imagesDir = path.join(app.bowerDirectory, 'jquery-ui/themes/base/images');
+  let imagesDir = path.join(app.bowerDirectory, 'jquery-ui/themes/base/images');
   fs.readdirSync(imagesDir).forEach(function(file) {
     app.import(path.join(imagesDir, file), { destDir: "/assets/images" });
   });

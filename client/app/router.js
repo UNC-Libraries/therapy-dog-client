@@ -11,16 +11,13 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import Ember from 'ember';
-import config from './config/environment';
+import EmberRouter from '@ember/routing/router';
+import config from 'therapy-dog/config/environment';
 
-const Router = Ember.Router.extend({
-  location: config.locationType
-});
-
-Router.reopen({
-  rootURL: '/forms/'
-});
+export default class Router extends EmberRouter {
+  location = config.locationType;
+  rootURL = config.rootURL;
+}
 
 Router.map(function() {
   this.route('deposit', { path: '/:form_id' }, function() {
@@ -29,5 +26,3 @@ Router.map(function() {
 
   this.route('not-found', { path: '/*wildcard' });
 });
-
-export default Router;

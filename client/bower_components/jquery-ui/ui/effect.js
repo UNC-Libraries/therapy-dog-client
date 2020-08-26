@@ -113,7 +113,7 @@ $.effects = {
 			}
 		} ],
 
-	// JQuery.Color( )
+	// jQuery.Color( )
 	color = jQuery.Color = function( color, green, blue, alpha ) {
 		return new jQuery.Color.fn.parse( color, green, blue, alpha );
 	},

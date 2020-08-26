@@ -12,10 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 import Ember from 'ember';
+import jQuery from 'jquery';
+import Component from '@ember/component';
 import FocusEntryAction from 'therapy-dog/mixins/focus-entry-action';
 /* globals $ */
 
-export default Ember.Component.extend(FocusEntryAction, {
+export default Component.extend(FocusEntryAction, {
   classNames: ['block', 'date'],
   classNameBindings: ['required', 'invalid'],
   required: Ember.computed.alias('entry.required'),
@@ -30,7 +32,7 @@ export default Ember.Component.extend(FocusEntryAction, {
   },
 
   supportsDateInput: Ember.computed(function() {
-    var test = document.createElement('input');
+    let test = document.createElement('input');
     test.type = 'date';
     return test.type === 'date';
   }),
@@ -43,26 +45,26 @@ export default Ember.Component.extend(FocusEntryAction, {
       return precision;
     }
   }),
-  
+
   didInsertElement: function() {
     this._super(...arguments);
-    this.$('input.datepicker').datepicker({
+    jQuery('input.datepicker').datepicker({
       changeMonth: true,
       changeYear: true,
       dateFormat: $.datepicker.ISO_8601
     });
   },
-  
+
   willDestroyElement() {
     this._super(...arguments);
-    this.$('input.datepicker').datepicker('destroy');
+    jQuery('input.datepicker').datepicker('destroy');
   },
-  
+
   actions: {
     focusEntry: function() {
-      this.$('input').focus();
+      jQuery('input').focus();
     },
-    
+
     change: function(value) {
       this.set('entry.value', value);
     }

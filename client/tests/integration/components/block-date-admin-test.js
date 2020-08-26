@@ -15,6 +15,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import ValueEntry from 'therapy-dog/utils/value-entry';
 import Ember from 'ember';
+import jQuery from 'jquery';
 
 moduleForComponent('block-text', 'Integration | Component | Date block with admin precision', {
   integration: true
@@ -33,8 +34,8 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{block-date entry=entry}}`);
 
-  assert.equal(this.$('label').text().trim(), 'Date');
-  assert.equal(this.$('input').val(), '');
+  assert.equal(jQuery('label').text().trim(), 'Date');
+  assert.equal(jQuery('input').val(), '');
 });
 
 test('it sets the value', function(assert) {
@@ -43,15 +44,15 @@ test('it sets the value', function(assert) {
 
   this.render(hbs`{{block-date entry=entry}}`);
 
-  this.$('input').val('2016').change();
+  jQuery('input').val('2016').change();
 
   assert.equal(entry.get('value'), '2016');
 
-  this.$('input').val('2016-04').change();
+  jQuery('input').val('2016-04').change();
 
   assert.equal(entry.get('value'), '2016-04');
 
-  this.$('input').val('2016-04-08').change();
+  jQuery('input').val('2016-04-08').change();
 
   assert.equal(entry.get('value'), '2016-04-08');
 });
@@ -62,7 +63,7 @@ test('the entry is valid if blank', function(assert) {
 
   this.render(hbs`{{block-date entry=entry}}`);
 
-  this.$('input').val('').change();
+  jQuery('input').val('').change();
 
   assert.equal(entry.get('value'), '');
   assert.notOk(entry.get('invalid'), 'should be a valid date');
@@ -74,22 +75,22 @@ test('the entry is invalid for invalid input', function(assert) {
 
   this.render(hbs`{{block-date entry=entry}}`);
 
-  this.$('input').val('abc').change();
+  jQuery('input').val('abc').change();
 
   assert.equal(entry.get('value'), 'abc');
   assert.ok(entry.get('invalid'), 'should not be a valid date');
 
-  this.$('input').val('5').change();
+  jQuery('input').val('5').change();
 
   assert.equal(entry.get('value'), '5');
   assert.ok(entry.get('invalid'), 'should not be a valid date');
 
-  this.$('input').val('2005-').change();
+  jQuery('input').val('2005-').change();
 
   assert.equal(entry.get('value'), '2005-');
   assert.ok(entry.get('invalid'), 'should not be a valid date');
 
-  this.$('input').val('2005-04-').change();
+  jQuery('input').val('2005-04-').change();
 
   assert.equal(entry.get('value'), '2005-04-');
   assert.ok(entry.get('invalid'), 'should not be a valid date');

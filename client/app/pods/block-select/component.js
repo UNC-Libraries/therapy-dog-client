@@ -12,9 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 import Ember from 'ember';
+import jQuery from 'jquery';
+import Component from '@ember/component';
 import FocusEntryAction from 'therapy-dog/mixins/focus-entry-action';
 
-export default Ember.Component.extend(FocusEntryAction, {
+export default Component.extend(FocusEntryAction, {
   classNames: ['block', 'select'],
   classNameBindings: ['required', 'invalid'],
   required: Ember.computed.alias('entry.required'),
@@ -37,7 +39,7 @@ export default Ember.Component.extend(FocusEntryAction, {
 
   actions: {
     focusEntry: function() {
-      this.$('select').focus();
+      jQuery('select').focus();
     },
 
     change: function(value) {

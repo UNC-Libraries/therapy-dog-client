@@ -15,6 +15,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import ValueEntry from 'therapy-dog/utils/value-entry';
 import Ember from 'ember';
+import jQuery from 'jquery';
 
 moduleForComponent('block-orcid', 'Integration | Component | Orcid block', {
   integration: true
@@ -39,8 +40,8 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{block-orcid entry=entry}}`);
 
-  assert.equal(this.$('label').text().trim(), 'Orcid Id');
-  assert.ok(this.$('.block').hasClass('required'));
+  assert.equal(jQuery('label').text().trim(), 'Orcid Id');
+  assert.ok(jQuery('.block').hasClass('required'));
 });
 
 test('it updates the entry value when text is entered', function(assert) {
@@ -49,8 +50,8 @@ test('it updates the entry value when text is entered', function(assert) {
 
   this.render(hbs`{{block-orcid entry=entry}}`);
 
-  this.$('input').val('1234-1234-1234-1234');
-  this.$('input').change();
+  jQuery('input').val('1234-1234-1234-1234');
+  jQuery('input').change();
 
   assert.deepEqual(entry.get('value'), '1234-1234-1234-1234');
 });
@@ -61,12 +62,12 @@ test('it is invalid with no text entered if required', function(assert) {
 
   this.render(hbs`{{block-orcid entry=entry}}`);
 
-  assert.ok(this.$('.block').hasClass('invalid'));
+  assert.ok(jQuery('.block').hasClass('invalid'));
 
-  this.$('input').val('');
-  this.$('input').change();
+  jQuery('input').val('');
+  jQuery('input').change();
 
-  assert.ok(this.$('.block').hasClass('invalid'));
+  assert.ok(jQuery('.block').hasClass('invalid'));
 });
 
 test('it is invalid if an invalid orcid is entered', function(assert) {
@@ -75,12 +76,12 @@ test('it is invalid if an invalid orcid is entered', function(assert) {
 
   this.render(hbs`{{block-orcid entry=entry}}`);
 
-  assert.ok(this.$('.block').hasClass('invalid'));
+  assert.ok(jQuery('.block').hasClass('invalid'));
 
-  this.$('input').val('123-1234-1234-1234');
-  this.$('input').change();
+  jQuery('input').val('123-1234-1234-1234');
+  jQuery('input').change();
 
-  assert.ok(this.$('.block').hasClass('invalid'));
+  assert.ok(jQuery('.block').hasClass('invalid'));
 });
 
 test('it is valid if an valid orcid is entered', function(assert) {
@@ -89,12 +90,12 @@ test('it is valid if an valid orcid is entered', function(assert) {
 
   this.render(hbs`{{block-orcid entry=entry}}`);
 
-  assert.ok(this.$('.block').hasClass('invalid'));
+  assert.ok(jQuery('.block').hasClass('invalid'));
 
-  this.$('input').val('orcid.org/1234-1234-1234-1234');
-  this.$('input').change();
+  jQuery('input').val('orcid.org/1234-1234-1234-1234');
+  jQuery('input').change();
 
-  assert.notOk(this.$('.block').hasClass('invalid'));
+  assert.notOk(jQuery('.block').hasClass('invalid'));
 });
 
 test('it is valid with no text entered if not required', function(assert) {
@@ -103,10 +104,10 @@ test('it is valid with no text entered if not required', function(assert) {
 
   this.render(hbs`{{block-orcid entry=entry}}`);
 
-  assert.notOk(this.$('.block').hasClass('invalid'));
+  assert.notOk(jQuery('.block').hasClass('invalid'));
 
-  this.$('input').val('');
-  this.$('input').change();
+  jQuery('input').val('');
+  jQuery('input').change();
 
-  assert.notOk(this.$('.block').hasClass('invalid'));
+  assert.notOk(jQuery('.block').hasClass('invalid'));
 });

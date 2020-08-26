@@ -12,9 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 import Ember from 'ember';
+import jQuery from 'jquery';
+import Component from '@ember/component';
 import ObjectEntry from 'therapy-dog/utils/object-entry';
 
-export default Ember.Component.extend({
+export default Component.extend({
   entryEvents: Ember.inject.service(),
 
   classNames: ['block', 'section'],
@@ -70,7 +72,7 @@ export default Ember.Component.extend({
           });
         } else {
           Ember.run.next(this, function() {
-            this.$('.add button').focus();
+            jQuery('.add button').focus();
           });
         }
       }

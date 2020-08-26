@@ -2,9 +2,9 @@ sudo: false
 dist: trusty
 language: node_js
 node_js:
-  - "4"
+  - "12"
 env:
-    - EMBER_VERSION=2.11.1
+    - EMBER_VERSION=3.20.0
 
 cache:
   directories:
@@ -17,7 +17,7 @@ before_install:
     - export DISPLAY=:99.0
     - sh -e /etc/init.d/xvfb start
     - "npm config set spin false"
-    - "npm install -g npm@^2"
+    - "npm install -g npm@^12"
 install:
     - npm install babel-plugin-transform-es2015-block-scoping
     - npm install -g bower

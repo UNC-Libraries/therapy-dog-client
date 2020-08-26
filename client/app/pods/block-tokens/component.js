@@ -12,9 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 import Ember from 'ember';
+import jQuery from 'jquery';
+import Component from '@ember/component';
 import FocusEntryAction from 'therapy-dog/mixins/focus-entry-action';
 
-export default Ember.Component.extend(FocusEntryAction, {
+export default Component.extend(FocusEntryAction, {
   classNames: ['block', 'tokens'],
   classNameBindings: ['required', 'invalid'],
   required: Ember.computed.alias('entry.required'),
@@ -22,7 +24,7 @@ export default Ember.Component.extend(FocusEntryAction, {
 
   didReceiveAttrs() {
     this._super(...arguments);
-    
+
     if (Ember.isBlank(this.get('entry.value'))) {
       this.set('entry.value', []);
     }
@@ -30,8 +32,8 @@ export default Ember.Component.extend(FocusEntryAction, {
 
   didInsertElement: function() {
     this._super(...arguments);
-    
-    this.$('ul.tagit').tagit({
+
+    jQuery('ul.tagit').tagit({
       placeholderText: this.get('entry.block.placeholder'),
       allowDuplicates: true,
       removeConfirmation: true,
@@ -39,40 +41,41 @@ export default Ember.Component.extend(FocusEntryAction, {
       availableTags: this.get('entry.block.options'),
       afterTagAdded: () => {
         Ember.run.scheduleOnce('afterRender', this, function() {
-          this.set('entry.value', this.$('ul.tagit').tagit('assignedTags'));
+          this.set('entry.value', jQuery('ul.tagit').tagit('assignedTags'));
         });
       },
       afterTagRemoved: () => {
         Ember.run.scheduleOnce('afterRender', this, function() {
-          this.set('entry.value', this.$('ul.tagit').tagit('assignedTags'));
+          this.set('entry.value', jQuery('ul.tagit').tagit('assignedTags'));
         });
       }
     });
 
-    let tagitInput = this.$('ul.tagit input');
-    
+    let tagitInput = jQuery('ul.tagit input');
+
     tagitInput.attr('id', Ember.guidFor(this.get('entry')));
-    
+
     tagitInput.on('focus', () => {
-      this.$('ul.tagit').addClass('tagit-focus');
+      jQuery('ul.tagit').addClass('tagit-focus');
     });
-    
+
     tagitInput.on('blur', () => {
-      this.$('ul.tagit').removeClass('tagit-focus');
+      jQuery('ul.tagit').removeClass('tagit-focus');
     });
   },
 
   willDestroyElement() {
     this._super(...arguments);
 
-    this.$('ul.tagit').tagit('destroy');
-    this.$('ul.tagit input').off('focus');
-    this.$('ul.tagit input').off('blur');
+    jQuery('ul.tagit').tagit('destroy');
+    let tagInput = jQuery('ul.tagit input');
+    tagInput.off('focus');
+    tagInput.off('blur');
   },
 
   actions: {
     focusEntry: function() {
-      this.$('input').focus();
+      jQuery('input').focus();
     }
   }
 });

@@ -1,6 +1,6 @@
 {
   "name": "DOMPurify",
-  "version": "0.7.4",
+  "version": "2.0.12",
   "homepage": "https://github.com/cure53/DOMPurify",
   "author": "Cure53 <info@cure53.de>",
   "description": "A DOM-only, super-fast, uber-tolerant XSS sanitizer for HTML, MathML and SVG",
@@ -24,19 +24,18 @@
   ],
   "ignore": [
     "**/.*",
+    "demos",
+    "scripts",
     "test",
-    "demo"
+    "website"
   ],
-  "devDependencies": {
-    "jQuery": "1.11.0"
-  },
-  "_release": "0.7.4",
+  "_release": "2.0.12",
   "_resolution": {
     "type": "version",
-    "tag": "0.7.4",
-    "commit": "75e108809a90749417e375193531f7305f647cd4"
+    "tag": "2.0.12",
+    "commit": "05bf3fc4dce98b0f182b8b988f9d39264144b3be"
   },
-  "_source": "git://github.com/cure53/DOMPurify.git",
-  "_target": "^0.7.4",
+  "_source": "https://github.com/cure53/DOMPurify.git",
+  "_target": "^2.0.12",
   "_originalSource": "DOMPurify"
 }

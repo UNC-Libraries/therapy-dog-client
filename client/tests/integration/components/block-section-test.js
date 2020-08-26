@@ -15,6 +15,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import ArrayEntry from 'therapy-dog/utils/array-entry';
 import Ember from 'ember';
+import jQuery from 'jquery';
 
 moduleForComponent('block-section', 'Integration | Component | Section block', {
   integration: true
@@ -34,38 +35,38 @@ let authorsSectionBlock = Ember.Object.create({
 test('it renders', function(assert) {
   let entry = ArrayEntry.create({ block: authorsSectionBlock });
   this.set('entry', entry);
-  
+
   this.render(hbs`{{block-section entry=entry}}`);
 
-  assert.equal(this.$('h2').text().trim(), 'Authors');
-  assert.equal(this.$('label').eq(0).text().trim(), 'First Name');
-  assert.equal(this.$('label').eq(1).text().trim(), 'Last Name');
+  assert.equal(jQuery('h2').text().trim(), 'Authors');
+  assert.equal(jQuery('label').eq(0).text().trim(), 'First Name');
+  assert.equal(jQuery('label').eq(1).text().trim(), 'Last Name');
 });
 
 test('it updates the entry value when text is entered', function(assert) {
   let entry = ArrayEntry.create({ block: authorsSectionBlock });
   this.set('entry', entry);
-  
+
   this.render(hbs`{{block-section entry=entry}}`);
-  
-  this.$('input').eq(0).val('Someone');
-  this.$('input').change();
-  
-  this.$('input').eq(1).val('Author');
-  this.$('input').change();
-  
+
+  jQuery('input').eq(0).val('Someone');
+  jQuery('input').change();
+
+  jQuery('input').eq(1).val('Author');
+  jQuery('input').change();
+
   assert.deepEqual(entry.flatten(), [{ first: 'Someone', last: 'Author' }]);
 });
 
 test('it adds an object to the entry when the "Add" button is clicked', function(assert) {
   let entry = ArrayEntry.create({ block: authorsSectionBlock });
   this.set('entry', entry);
-  
+
   this.render(hbs`{{block-section entry=entry}}`);
-  
+
   assert.equal(entry.get('value.length'), 1);
-  
-  this.$('.add button').click();
-  
+
+  jQuery('.add button').click();
+
   assert.equal(entry.get('value.length'), 2);
 });
