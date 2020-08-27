@@ -11,65 +11,65 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render, find, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import ValueEntry from 'therapy-dog/utils/value-entry';
 import Ember from 'ember';
-import jQuery from 'jquery';
 
-moduleForComponent('block-agreement', 'Integration | Component | Agreement block', {
-  integration: true
+module('block-agreement', 'Integration | Component | Agreement block', function (hooks) {
+  setupRenderingTest(hooks);
+
+  let block = Ember.Object.create({
+    type: 'agreement',
+    key: 'agreement',
+    name: 'Deposit Agreement',
+    uri: 'http://example.com/agreement',
+    prompt: 'I agree to the <a href="http://example.com/agreement">agreement</a>.'
+  });
+
+  test('it renders', async function(assert) {
+    let entry = ValueEntry.create({ block });
+    this.set('entry', entry);
+
+    await render(hbs`{{block-agreement entry=entry}}`);
+
+    assert.equal(find('h2').textContent.trim(), 'Deposit Agreement');
+    assert.equal(find('label').textContent.trim(), 'I agree to the agreement.');
+    assert.ok(find('.block').classList.contains('required'));
+  });
+
+  test('it updates the entry value when clicked', async function(assert) {
+    let entry = ValueEntry.create({ block });
+    this.set('entry', entry);
+
+    await render(hbs`{{block-agreement entry=entry}}`);
+
+    assert.deepEqual(entry.get('value'), false);
+
+    await click('input:first-of-type');
+    assert.deepEqual(entry.get('value'), true);
+
+    await click('input:last-of-type');
+    assert.deepEqual(entry.get('value'), false);
+  });
+
+  test('it is invalid unless checked', async function(assert) {
+    let entry = ValueEntry.create({ block });
+    this.set('entry', entry);
+
+    await render(hbs`{{block-agreement entry=entry}}`);
+
+    let selectedBlock = find('.block');
+    assert.ok(selectedBlock.classList.contains('invalid'));
+
+    await click('input:first-of-type');
+    assert.notOk(selectedBlock.classList.contains('invalid'));
+
+    await click('input:last-of-type');
+    assert.ok(selectedBlock.classList.contains('invalid'));
+  });
 });
 
-let block = Ember.Object.create({
-  type: 'agreement',
-  key: 'agreement',
-  name: 'Deposit Agreement',
-  uri: 'http://example.com/agreement',
-  prompt: 'I agree to the <a href="http://example.com/agreement">agreement</a>.'
-});
 
-test('it renders', function(assert) {
-  let entry = ValueEntry.create({ block });
-  this.set('entry', entry);
-
-  this.render(hbs`{{block-agreement entry=entry}}`);
-
-  assert.equal(jQuery('h2').text().trim(), 'Deposit Agreement');
-  assert.equal(jQuery('label').text().trim(), 'I agree to the agreement.');
-  assert.ok(jQuery('.block').hasClass('required'));
-});
-
-test('it updates the entry value when clicked', function(assert) {
-  let entry = ValueEntry.create({ block });
-  this.set('entry', entry);
-
-  this.render(hbs`{{block-agreement entry=entry}}`);
-
-  assert.deepEqual(entry.get('value'), false);
-
-  jQuery('input').eq(0).click();
-
-  assert.deepEqual(entry.get('value'), true);
-
-  jQuery('input').eq(0).click();
-
-  assert.deepEqual(entry.get('value'), false);
-});
-
-test('it is invalid unless checked', function(assert) {
-  let entry = ValueEntry.create({ block });
-  this.set('entry', entry);
-
-  this.render(hbs`{{block-agreement entry=entry}}`);
-
-  assert.ok(jQuery('.block').hasClass('invalid'));
-
-  jQuery('input').eq(0).click();
-
-  assert.notOk(jQuery('.block').hasClass('invalid'));
-
-  jQuery('input').eq(0).click();
-
-  assert.ok(jQuery('.block').hasClass('invalid'));
-});

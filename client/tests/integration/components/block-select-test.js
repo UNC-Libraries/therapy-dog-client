@@ -11,33 +11,35 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render, find, findAll } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import ValueEntry from 'therapy-dog/utils/value-entry';
 import Ember from 'ember';
-import jQuery from 'jquery';
 
-moduleForComponent('block-select', 'Integration | Component | Select block', {
-  integration: true
-});
 
-let vocabSelectBlock = Ember.Object.create({
-  type: 'radio',
-  key: 'colors',
-  label: 'Primary Colors',
-  options: [
-    { label: 'Red', value: '#f00' },
-    { label: 'Blue', value: '#0f0' },
-    { label: 'Yellow', value: '#ff0' }
-  ]
-});
+module('block-select', 'Integration | Component | Select block', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
-  let entry = ValueEntry.create({ block: vocabSelectBlock });
-  this.set('entry', entry);
+  let vocabSelectBlock = Ember.Object.create({
+    type: 'radio',
+    key: 'colors',
+    label: 'Primary Colors',
+    options: [
+      { label: 'Red', value: '#f00' },
+      { label: 'Blue', value: '#0f0' },
+      { label: 'Yellow', value: '#ff0' }
+    ]
+  });
 
-  this.render(hbs`{{block-select entry=entry}}`);
+  test('it renders', async function(assert) {
+    let entry = ValueEntry.create({ block: vocabSelectBlock });
+    this.set('entry', entry);
 
-  assert.equal(jQuery('label').text().trim(), 'Primary Colors');
-  assert.deepEqual(jQuery('option').map((i, e) => $(e).text().trim()).get(), ['Red', 'Blue', 'Yellow']);
+    await render(hbs`{{block-select entry=entry}}`);
+
+    assert.equal(find('label').textContent.trim(), 'Primary Colors');
+    assert.deepEqual(findAll('option').map((e) => e.textContent.trim()), ['Red', 'Blue', 'Yellow']);
+  });
 });

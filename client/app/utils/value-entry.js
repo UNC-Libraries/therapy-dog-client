@@ -19,13 +19,13 @@ const DATE_MONTH_REGEXP = /^[1-2]\d{3}-(0[1-9]|1[0-2])$/;
 const DATE_YEAR_REGEXP = /^[1-2]\d{3}$/;
 const DATE_ADMIN_REGEXP = /^([1-2]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1])|[1-2]\d{3}-(0[1-9]|1[0-2])|^[1-2]\d{3}$)$/;
 const DURATION_REGEXP = /^P.+$/;
-const ORCID_REGEXP = /^((https?:\/\/)?orcid\.org\/)?\d{4}-\d{4}-\d{4}-\d{4}$/;
+const ORCID_REGEXP = /^((https?:\/\/)?orcid\.org\/)\d{4}-\d{4}-\d{4}-\d{4}$/;
 
 export default Ember.Object.extend({
   required: Ember.computed('block.type', 'block.required', function() {
     let type = this.get('block.type');
     let required = this.get('block.required');
-    
+
     if (type === 'agreement') {
       return true;
     } else if (required) {
@@ -34,16 +34,16 @@ export default Ember.Object.extend({
       return false;
     }
   }),
-  
+
   invalid: Ember.computed('errors', function() {
     return !Ember.isEmpty(this.get('errors'));
   }),
-  
+
   errors: Ember.computed('block.required', 'block.type', 'block.precision', 'value', 'value.[]', function() {
     let type = this.get('block.type');
     let required = this.get('block.required');
     let value = this.get('value');
-    
+
     if (type === 'agreement' && !value) {
       return [`You must agree to the ${this.get('block.name')} before depositing.`];
     } else if (type === 'file' && required && Ember.isEmpty(value)) {
@@ -58,8 +58,8 @@ export default Ember.Object.extend({
       return [`The entered value is not a valid orcid id.`];
     } else if (type === 'date') {
       let precision = this.get('block.precision');
-      
-      // Duration date valid according to pattern 
+
+      // Duration date valid according to pattern
       if (DURATION_REGEXP.test(value)) {
         return [];
       }
@@ -78,11 +78,11 @@ export default Ember.Object.extend({
       return [];
     }
   }),
-  
+
   flatten() {
     return this.get('value');
   },
-  
+
   forEach(iterator) {
     iterator(this);
   }
