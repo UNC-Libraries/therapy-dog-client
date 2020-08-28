@@ -13,6 +13,8 @@
 // limitations under the License.
 import Ember from 'ember';
 import Component from '@ember/component';
+import { alias } from '@ember/object/computed';
+import { next } from '@ember/runloop';
 import ObjectEntry from 'therapy-dog/utils/object-entry';
 
 export default Component.extend({
@@ -20,8 +22,8 @@ export default Component.extend({
 
   classNames: ['block', 'section'],
   classNameBindings: ['repeat', 'displayed-inline'],
-  repeat: Ember.computed.alias('entry.block.repeat'),
-  "displayed-inline": Ember.computed.alias('entry.block.displayInline'),
+  repeat: alias('entry.block.repeat'),
+  "displayed-inline": alias('entry.block.displayInline'),
 
   didReceiveAttrs() {
     this._super(...arguments);
@@ -45,7 +47,7 @@ export default Component.extend({
         let entry = this.createBlankEntry();
         this.get('entry.value').pushObject(entry);
 
-        Ember.run.next(this, function() {
+        next(this, function() {
           this.get('entryEvents').trigger('focus', entry);
         });
       }
@@ -66,11 +68,11 @@ export default Component.extend({
         // If we found an entry to focus, do that.
         // Otherwise, focus the "Add" button.
         if (focusEntry) {
-          Ember.run.next(this, function() {
+          next(this, function() {
             this.get('entryEvents').trigger('focus', focusEntry);
           });
         } else {
-          Ember.run.next(this, function() {
+          next(this, function() {
             this.element.querySelector('.add button').focus();
           });
         }

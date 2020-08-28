@@ -11,15 +11,15 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import Ember from 'ember';
 import Component from '@ember/component';
+import { computed } from '@ember/object';
 
 export default Component.extend({
   tagName: 'input',
   type: 'radio',
   attributeBindings: ['checked', 'type', 'value', 'name'],
 
-  checked: Ember.computed('value', 'groupValue', function() {
+  checked: computed('value', 'groupValue', function() {
     return this.get('groupValue') === this.get('value');
   }),
 

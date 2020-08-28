@@ -11,49 +11,53 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import Ember from 'ember';
 import jQuery from 'jquery';
 import Component from '@ember/component';
+import { alias } from '@ember/object/computed';
+import { guidFor } from '@ember/object/internals';
+import { scheduleOnce } from '@ember/runloop';
+import { isBlank } from '@ember/utils';
 import FocusEntryAction from 'therapy-dog/mixins/focus-entry-action';
 
 export default Component.extend(FocusEntryAction, {
   classNames: ['block', 'tokens'],
   classNameBindings: ['required', 'invalid'],
-  required: Ember.computed.alias('entry.required'),
-  invalid: Ember.computed.alias('entry.invalid'),
+  required: alias('entry.required'),
+  invalid: alias('entry.invalid'),
 
   didReceiveAttrs() {
     this._super(...arguments);
 
-    if (Ember.isBlank(this.get('entry.value'))) {
+    if (isBlank(this.get('entry.value'))) {
       this.set('entry.value', []);
     }
   },
 
   didInsertElement: function() {
     this._super(...arguments);
+    let el = this.element;
 
-    jQuery('ul.tagit').tagit({
+    jQuery('ul.tagit', el).tagit({
       placeholderText: this.get('entry.block.placeholder'),
       allowDuplicates: true,
       removeConfirmation: true,
       allowSpaces: true,
       availableTags: this.get('entry.block.options'),
       afterTagAdded: () => {
-        Ember.run.scheduleOnce('afterRender', this, function() {
-          this.set('entry.value', jQuery('ul.tagit').tagit('assignedTags'));
+        scheduleOnce('afterRender', this, function() {
+          this.set('entry.value', jQuery('ul.tagit', el).tagit('assignedTags'));
         });
       },
       afterTagRemoved: () => {
-        Ember.run.scheduleOnce('afterRender', this, function() {
-          this.set('entry.value', jQuery('ul.tagit').tagit('assignedTags'));
+        scheduleOnce('afterRender', this, function() {
+          this.set('entry.value', jQuery('ul.tagit', el).tagit('assignedTags'));
         });
       }
     });
 
-    let tagitInput = jQuery('ul.tagit input');
+    let tagitInput = jQuery('ul.tagit input', this.element);
 
-    tagitInput.attr('id', Ember.guidFor(this.get('entry')));
+    tagitInput.attr('id', guidFor(this.get('entry')));
 
     tagitInput.on('focus', () => {
       this.element.querySelectorAll('ul.tagit').forEach((el) => {

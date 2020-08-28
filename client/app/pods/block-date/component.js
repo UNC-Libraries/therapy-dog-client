@@ -11,35 +11,37 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import Ember from 'ember';
 import jQuery from 'jquery';
 import Component from '@ember/component';
+import { computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import { isBlank, isEmpty } from '@ember/utils';
 import FocusEntryAction from 'therapy-dog/mixins/focus-entry-action';
 /* globals $ */
 
 export default Component.extend(FocusEntryAction, {
   classNames: ['block', 'date'],
   classNameBindings: ['required', 'invalid'],
-  required: Ember.computed.alias('entry.required'),
-  invalid: Ember.computed.alias('entry.invalid'),
+  required: alias('entry.required'),
+  invalid: alias('entry.invalid'),
 
   didReceiveAttrs() {
     this._super(...arguments);
 
-    if (Ember.isBlank(this.get('entry.value'))) {
+    if (isBlank(this.get('entry.value'))) {
       this.set('entry.value', this.get('entry.block.defaultValue') || '');
     }
   },
 
-  supportsDateInput: Ember.computed(function() {
+  supportsDateInput: computed(function() {
     let test = document.createElement('input');
     test.type = 'date';
     return test.type === 'date';
   }),
 
-  precision: Ember.computed('entry.block.precision', function() {
+  precision: computed('entry.block.precision', function() {
     let precision = this.get('entry.block.precision');
-    if (Ember.isEmpty(precision)) {
+    if (isEmpty(precision)) {
       return 'day';
     } else {
       return precision;
@@ -48,7 +50,7 @@ export default Component.extend(FocusEntryAction, {
 
   didInsertElement: function() {
     this._super(...arguments);
-    jQuery('input.datepicker').datepicker({
+    jQuery('input.datepicker', this.element).datepicker({
       changeMonth: true,
       changeYear: true,
       dateFormat: $.datepicker.ISO_8601
@@ -57,7 +59,7 @@ export default Component.extend(FocusEntryAction, {
 
   willDestroyElement() {
     this._super(...arguments);
-    jQuery('input.datepicker').datepicker('destroy');
+    jQuery('input.datepicker', this.element).datepicker('destroy');
   },
 
   actions: {
