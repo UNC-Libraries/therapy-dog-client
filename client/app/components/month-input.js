@@ -11,8 +11,9 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import Ember from 'ember';
 import Component from '@ember/component';
+import { computed } from '@ember/object';
+import { isEmpty, typeOf } from '@ember/utils';
 
 export default Component.extend({
   classNames: ['month-input'],
@@ -32,11 +33,11 @@ export default Component.extend({
     {key:'12', value: 'December'}
   ],
 
-  value: Ember.computed('year', 'month', {
+  value: computed('year', 'month', {
     get() {
       let { year, month } = this.getProperties('year', 'month');
 
-      if (Ember.isEmpty(year) && Ember.isEmpty(month)) {
+      if (isEmpty(year) && isEmpty(month)) {
         return '';
       } else {
         return (year || '') + '-' + (month || '');
@@ -44,7 +45,7 @@ export default Component.extend({
     },
 
     set(key, value) {
-      if (Ember.typeOf(value) === 'string') {
+      if (typeOf(value) === 'string') {
         let [year, month] = value.split('-');
         this.set('year', year || '');
         this.set('month', month || '');

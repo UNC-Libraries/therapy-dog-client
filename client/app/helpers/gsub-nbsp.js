@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
+import { htmlSafe } from '@ember/template';
 
-export default Ember.Helper.helper(function([string]) {
-  return Ember.String.htmlSafe(Ember.Handlebars.Utils.escapeExpression(string).replace(/ /g, '&nbsp;'));
+export default buildHelper(function([string]) {
+  return htmlSafe(Ember.Handlebars.Utils.escapeExpression(string).replace(/ /g, '&nbsp;'));
 });

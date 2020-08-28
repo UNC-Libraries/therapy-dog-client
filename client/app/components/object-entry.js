@@ -11,15 +11,16 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import Ember from 'ember';
 import Component from '@ember/component';
+import EmberObject from '@ember/object';
+import { inject } from '@ember/service';
 import ArrayEntry from 'therapy-dog/utils/array-entry';
 import ObjectEntry from 'therapy-dog/utils/object-entry';
 import ValueEntry from 'therapy-dog/utils/value-entry';
 import FocusEntryAction from 'therapy-dog/mixins/focus-entry-action';
 
 export default Component.extend(FocusEntryAction, {
-  entryEvents: Ember.inject.service(),
+  entryEvents: inject,
 
   didReceiveAttrs() {
     this._super(...arguments);
@@ -27,7 +28,7 @@ export default Component.extend(FocusEntryAction, {
     let block = this.get('entry.block'), value = this.get('entry.value');
 
     if (!value) {
-      value = this.set('entry.value', Ember.Object.create());
+      value = this.set('entry.value', EmberObject.create());
     }
 
     let entries = block.get('children').map(function(child) {

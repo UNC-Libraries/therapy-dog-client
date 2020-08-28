@@ -11,12 +11,17 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import Ember from 'ember';
 import jQuery from 'jquery';
 import Component from '@ember/component';
+import { computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import { next, scheduleOnce } from '@ember/runloop';
+import { inject as service } from '@ember/service';
 import FocusEntryAction from 'therapy-dog/mixins/focus-entry-action';
 
 export default Component.extend(FocusEntryAction, {
+  @service uploader,
+
   init() {
     this._super(...arguments);
     this.set('uploads', []);
@@ -24,11 +29,9 @@ export default Component.extend(FocusEntryAction, {
 
   classNames: ['block', 'file'],
   classNameBindings: ['required', 'invalid', 'isMultiple:multiple'],
-  required: Ember.computed.alias('entry.required'),
-  invalid: Ember.computed.alias('entry.invalid'),
-  isMultiple: Ember.computed.alias('entry.block.multiple'),
-
-  uploader: Ember.inject.service(),
+  required: alias('entry.required'),
+  invalid: alias('entry.invalid'),
+  isMultiple: alias('entry.block.multiple'),
 
   didReceiveAttrs() {
     this._super(...arguments);
@@ -53,7 +56,7 @@ export default Component.extend(FocusEntryAction, {
     link.href = 'https://library.unc.edu/wilson/contact/?refer=' + shortenedUrl;
   }.on('didInsertElement'),
 
-  acceptsNewUpload: Ember.computed('uploads.length', 'isMultiple', function() {
+  acceptsNewUpload: computed('uploads.length', 'isMultiple', function() {
     let count = this.get('uploads.length'), multiple = this.get('isMultiple');
 
     if (!multiple && count > 0) {
@@ -74,7 +77,7 @@ export default Component.extend(FocusEntryAction, {
       }
 
       if (!this.get('isMultiple')) {
-        Ember.run.scheduleOnce('afterRender', this, function() {
+        scheduleOnce('afterRender', this, function() {
           jQuery('button').focus();
         });
       }
@@ -82,7 +85,7 @@ export default Component.extend(FocusEntryAction, {
 
     upload.on('error', () => {
       if (!this.get('isMultiple')) {
-        Ember.run.scheduleOnce('afterRender', this, function() {
+        scheduleOnce('afterRender', this, function() {
           jQuery('button').focus();
         });
       }
@@ -91,7 +94,7 @@ export default Component.extend(FocusEntryAction, {
     this.get('uploads').pushObject(upload);
 
     if (!this.get('isMultiple')) {
-      Ember.run.scheduleOnce('afterRender', this, function() {
+      scheduleOnce('afterRender', this, function() {
         jQuery('button').focus();
       });
     }
@@ -103,7 +106,7 @@ export default Component.extend(FocusEntryAction, {
     uploads.removeObject(upload);
 
     if (!this.get('isMultiple')) {
-      Ember.run.scheduleOnce('afterRender', this, function() {
+      scheduleOnce('afterRender', this, function() {
         jQuery('input[type="file"]').focus();
       });
     } else {
@@ -115,7 +118,7 @@ export default Component.extend(FocusEntryAction, {
         focusIndex = removedIndex;
       }
 
-      Ember.run.next(this, function() {
+      next(this, function() {
         if (focusIndex === -1) {
           jQuery('input').focus();
         } else {

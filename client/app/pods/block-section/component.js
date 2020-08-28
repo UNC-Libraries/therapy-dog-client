@@ -11,18 +11,20 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import Ember from 'ember';
 import jQuery from 'jquery';
 import Component from '@ember/component';
+import { alias } from '@ember/object/computed';
+import { next } from '@ember/runloop';
+import { inject as service } from '@ember/service';
 import ObjectEntry from 'therapy-dog/utils/object-entry';
 
 export default Component.extend({
-  entryEvents: Ember.inject.service(),
+  @service entryEvents,
 
   classNames: ['block', 'section'],
   classNameBindings: ['repeat', 'displayed-inline'],
-  repeat: Ember.computed.alias('entry.block.repeat'),
-  "displayed-inline": Ember.computed.alias('entry.block.displayInline'),
+  repeat: alias('entry.block.repeat'),
+  "displayed-inline": alias('entry.block.displayInline'),
 
   didReceiveAttrs() {
     this._super(...arguments);
@@ -46,7 +48,7 @@ export default Component.extend({
         let entry = this.createBlankEntry();
         this.get('entry.value').pushObject(entry);
 
-        Ember.run.next(this, function() {
+        next(this, function() {
           this.get('entryEvents').trigger('focus', entry);
         });
       }
@@ -67,11 +69,11 @@ export default Component.extend({
         // If we found an entry to focus, do that.
         // Otherwise, focus the "Add" button.
         if (focusEntry) {
-          Ember.run.next(this, function() {
+          next(this, function() {
             this.get('entryEvents').trigger('focus', focusEntry);
           });
         } else {
-          Ember.run.next(this, function() {
+          next(this, function() {
             jQuery('.add button').focus();
           });
         }

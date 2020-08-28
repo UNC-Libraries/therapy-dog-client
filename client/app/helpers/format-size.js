@@ -11,16 +11,16 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
 
-export default Ember.Helper.helper(function(size) {
+export default buildHelper(function(size) {
   if (size < 1) {
     return '0 B';
   }
-  
+
   let symbols = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
   let power = Math.floor((Math.log(size) / Math.LN10) / 3);
   let rounded = Math.round(size / Math.pow(1000, power));
-  
+
   return rounded + ' ' + symbols[power] + 'B';
 });
