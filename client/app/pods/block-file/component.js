@@ -75,7 +75,7 @@ export default Component.extend(FocusEntryAction, {
 
       if (!this.get('isMultiple')) {
         Ember.run.scheduleOnce('afterRender', this, function() {
-          jQuery('button').focus();
+          this.element.querySelector('input').focus();
         });
       }
     });
@@ -83,7 +83,7 @@ export default Component.extend(FocusEntryAction, {
     upload.on('error', () => {
       if (!this.get('isMultiple')) {
         Ember.run.scheduleOnce('afterRender', this, function() {
-          jQuery('button').focus();
+          this.element.querySelector('input').focus();
         });
       }
     });
@@ -92,7 +92,7 @@ export default Component.extend(FocusEntryAction, {
 
     if (!this.get('isMultiple')) {
       Ember.run.scheduleOnce('afterRender', this, function() {
-        jQuery('button').focus();
+        this.element.querySelector('input').focus();
       });
     }
   },
@@ -104,7 +104,7 @@ export default Component.extend(FocusEntryAction, {
 
     if (!this.get('isMultiple')) {
       Ember.run.scheduleOnce('afterRender', this, function() {
-        jQuery('input[type="file"]').focus();
+        this.element.querySelector('input[type="file"]').focus();
       });
     } else {
       let focusIndex = -1;
@@ -117,7 +117,7 @@ export default Component.extend(FocusEntryAction, {
 
       Ember.run.next(this, function() {
         if (focusIndex === -1) {
-          jQuery('input').focus();
+          this.element.querySelector('input').focus();
         } else {
           jQuery('.upload').eq(focusIndex).find('button, input').eq(0).focus();
         }
@@ -159,15 +159,19 @@ export default Component.extend(FocusEntryAction, {
     },
 
     focusEntry() {
-      jQuery('input').focus();
+      this.element.querySelector('input').focus();
     },
 
     focusInput() {
-      jQuery('.choose-file-wrapper').addClass('file-input-focus');
+      this.element.querySelectorAll('.choose-file-wrapper').forEach((el) => {
+        el.classList.add('file-input-focus');
+      });
     },
 
     blurInput() {
-      jQuery('.choose-file-wrapper').removeClass('file-input-focus');
+      this.element.querySelectorAll('.choose-file-wrapper').forEach((el) => {
+        el.classList.add('file-input-focus');
+      });
     }
   }
 });

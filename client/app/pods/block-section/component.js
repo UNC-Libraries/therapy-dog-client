@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 import Ember from 'ember';
-import jQuery from 'jquery';
 import Component from '@ember/component';
 import ObjectEntry from 'therapy-dog/utils/object-entry';
 
@@ -72,7 +71,7 @@ export default Component.extend({
           });
         } else {
           Ember.run.next(this, function() {
-            jQuery('.add button').focus();
+            this.element.querySelector('.add button').focus();
           });
         }
       }

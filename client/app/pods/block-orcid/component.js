@@ -52,7 +52,7 @@ export default Component.extend(FocusEntryAction, {
 
   actions: {
     focusEntry: function() {
-      jQuery('input').focus();
+      this.element.querySelector('input').focus();
     }
   }
 });

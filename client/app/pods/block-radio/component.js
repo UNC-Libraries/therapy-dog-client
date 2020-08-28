@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 import Ember from 'ember';
-import jQuery from 'jquery';
 import Component from '@ember/component';
 import FocusEntryAction from 'therapy-dog/mixins/focus-entry-action';
 
@@ -39,7 +38,8 @@ export default Component.extend(FocusEntryAction, {
     },
 
     focusEntry: function() {
-      jQuery('input').first().focus();
+      let inputs = this.element.querySelectorAll('input');
+      inputs[0].focus();
     }
   }
 });
