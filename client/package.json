@@ -48,7 +48,7 @@
     "ember-source": "^2.11.0",
     "ember-welcome-page": "^2.0.2",
     "glob": "^7.1.2",
-    "http-proxy": "^1.16.2",
+    "http-proxy": "^1.18.1",
     "jshint": "^2.9.1",
     "loader.js": "^4.0.10",
     "morgan": "^1.9.0"
