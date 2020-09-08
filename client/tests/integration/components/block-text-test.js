@@ -13,15 +13,15 @@
 // limitations under the License.
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
+import EmberObject from '@ember/object';
 import { render, fillIn, find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import ValueEntry from 'therapy-dog/utils/value-entry';
-import Ember from 'ember';
 
 module('block-text', 'Integration | Component | Text block', function(hooks) {
   setupRenderingTest(hooks);
 
-  let block = Ember.Object.create({
+  let block = EmberObject.create({
     type: 'text',
     key: 'first-name',
     label: 'First Name',

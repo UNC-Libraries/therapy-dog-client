@@ -13,15 +13,16 @@
 // limitations under the License.
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
+import EmberObject from '@ember/object';
 import { render, find, fillIn } from '@ember/test-helpers';
+import { isEmpty } from '@ember/utils';
 import hbs from 'htmlbars-inline-precompile';
 import ValueEntry from 'therapy-dog/utils/value-entry';
-import Ember from 'ember';
 
 module('block-text', 'Integration | Component | Date block with month precision', function (hooks) {
   setupRenderingTest(hooks);
 
-  let block = Ember.Object.create({
+  let block = EmberObject.create({
     type: 'date',
     key: 'month',
     label: 'Month',
@@ -110,7 +111,7 @@ module('block-text', 'Integration | Component | Date block with month precision'
 
     await render(hbs`{{block-date entry=entry}}`);
 
-    assert.ok(Ember.isEmpty(entry.get('value')), 'should have an empty value');
+    assert.ok(isEmpty(entry.get('value')), 'should have an empty value');
     assert.notOk(entry.get('invalid'), 'should not be an invalid month');
 
     await fillIn('select.month', '01');
@@ -119,7 +120,7 @@ module('block-text', 'Integration | Component | Date block with month precision'
     await fillIn('input.year', '2016');
     await fillIn('input.year', '');
 
-    assert.ok(Ember.isEmpty(entry.get('value')), 'should have an empty value');
+    assert.ok(isEmpty(entry.get('value')), 'should have an empty value');
     assert.notOk(entry.get('invalid'), 'should not be an invalid month');
   });
 });

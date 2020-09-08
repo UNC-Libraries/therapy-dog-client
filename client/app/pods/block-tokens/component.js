@@ -57,7 +57,7 @@ export default Component.extend(FocusEntryAction, {
 
     let tagitInput = jQuery('ul.tagit input', this.element);
 
-    tagitInput.attr('id', guidFor(this.get('entry')));
+    tagitInput.attr('id', guidFor(this.entry));
 
     tagitInput.on('focus', () => {
       this.element.querySelectorAll('ul.tagit').forEach((el) => {
@@ -75,8 +75,8 @@ export default Component.extend(FocusEntryAction, {
   willDestroyElement() {
     this._super(...arguments);
 
-    jQuery('ul.tagit').tagit('destroy');
-    let tagInput = jQuery('ul.tagit input');
+    jQuery('ul.tagit', this.element).tagit('destroy');
+    let tagInput = jQuery('ul.tagit input', this.element);
     tagInput.off('focus');
     tagInput.off('blur');
   },

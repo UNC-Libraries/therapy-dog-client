@@ -13,22 +13,22 @@
 // limitations under the License.
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
+import EmberObject from '@ember/object';
 import { render, find, fillIn } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import ValueEntry from 'therapy-dog/utils/value-entry';
-import Ember from 'ember';
 
 module('block-orcid', 'Integration | Component | Orcid block', function(hooks) {
   setupRenderingTest(hooks);
 
-  let block = Ember.Object.create({
+  let block = EmberObject.create({
     type: 'orcid',
     key: 'orcid',
     label: 'Orcid Id',
     required: true
   });
 
-  let optionalBlock = Ember.Object.create({
+  let optionalBlock = EmberObject.create({
     type: 'orcid',
     key: 'orcid',
     label: 'Orcid Id'

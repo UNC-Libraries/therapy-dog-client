@@ -13,22 +13,22 @@
 // limitations under the License.
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
+import EmberObject from '@ember/object';
 import { render, find, findAll, fillIn, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import ArrayEntry from 'therapy-dog/utils/array-entry';
-import Ember from 'ember';
 
 module('block-section', 'Integration | Component | Section block', function(hooks) {
   setupRenderingTest(hooks);
 
-  let authorsSectionBlock = Ember.Object.create({
+  let authorsSectionBlock = EmberObject.create({
     type: 'section',
     key: 'authors',
     label: 'Authors',
     repeat: true,
     children: [
-      Ember.Object.create({ type: 'text', key: 'first', label: 'First Name' }),
-      Ember.Object.create({ type: 'text', key: 'last', label: 'Last Name' })
+      EmberObject.create({ type: 'text', key: 'first', label: 'First Name' }),
+      EmberObject.create({ type: 'text', key: 'last', label: 'Last Name' })
     ]
   });
 

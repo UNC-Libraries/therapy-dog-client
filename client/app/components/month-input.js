@@ -35,7 +35,7 @@ export default Component.extend({
 
   value: computed('year', 'month', {
     get() {
-      let { year, month } = this.getProperties('year', 'month');
+      let { year, month } =  { year: this.year, month: this.month };
 
       if (isEmpty(year) && isEmpty(month)) {
         return '';

@@ -13,15 +13,15 @@
 // limitations under the License.
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
+import EmberObject from '@ember/object';
 import { render, find, findAll, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import ValueEntry from 'therapy-dog/utils/value-entry';
-import Ember from 'ember';
 
 module('block-checkboxes', 'Integration | Component | Checkboxes block', async function(hooks) {
   setupRenderingTest(hooks);
 
-  let vocabCheckboxesBlock = Ember.Object.create({
+  let vocabCheckboxesBlock = EmberObject.create({
     type: 'checkboxes',
     key: 'colors',
     label: 'Primary Colors',
@@ -32,7 +32,7 @@ module('block-checkboxes', 'Integration | Component | Checkboxes block', async f
     ]
   });
 
-  let requiredCheckboxesBlock = Ember.Object.create({
+  let requiredCheckboxesBlock = EmberObject.create({
     type: 'checkboxes',
     key: 'colors',
     label: 'Primary Colors',
@@ -44,7 +44,7 @@ module('block-checkboxes', 'Integration | Component | Checkboxes block', async f
     required: true
   });
 
-  let defaultValueCheckboxesBlock = Ember.Object.create({
+  let defaultValueCheckboxesBlock = EmberObject.create({
     type: 'checkboxes',
     key: 'colors',
     label: 'Primary Colors',

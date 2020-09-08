@@ -12,22 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
 
-export default Ember.Mixin.create({
+export default Mixin.create({
   entryEvents: Ember.inject.service(),
 
   didInsertElement: function() {
     this._super(...arguments);
-    this.get('entryEvents').on('focus', this, 'entryDidFocus');
+    this.entryEvents.on('focus', this, 'entryDidFocus');
   },
 
   willDestroyElement: function() {
     this._super(...arguments);
-    this.get('entryEvents').off('focus', this, 'entryDidFocus');
+    this.entryEvents.off('focus', this, 'entryDidFocus');
   },
 
   entryDidFocus: function(entry) {
-    if (this.get('entry') === entry) {
+    if (this.entry === entry) {
       this.send('focusEntry');
     }
   }

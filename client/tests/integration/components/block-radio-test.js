@@ -13,15 +13,15 @@
 // limitations under the License.
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
+import EmberObject from '@ember/object';
 import { render, find, findAll, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import ValueEntry from 'therapy-dog/utils/value-entry';
-import Ember from 'ember';
 
 module('block-radio', 'Integration | Component | Radio block', function(hooks) {
   setupRenderingTest(hooks);
 
-  let vocabRadioBlock = Ember.Object.create({
+  let vocabRadioBlock = EmberObject.create({
     type: 'radio',
     key: 'colors',
     label: 'Primary Colors',
@@ -32,7 +32,7 @@ module('block-radio', 'Integration | Component | Radio block', function(hooks) {
     ]
   });
 
-  let defaultValueRadioBlock = Ember.Object.create({
+  let defaultValueRadioBlock = EmberObject.create({
     type: 'radio',
     key: 'colors',
     label: 'Primary Colors',

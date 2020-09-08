@@ -48,7 +48,7 @@ export default Component.extend({
         this.get('entry.value').pushObject(entry);
 
         next(this, function() {
-          this.get('entryEvents').trigger('focus', entry);
+          this.entryEvents.trigger('focus', entry);
         });
       }
     },
@@ -69,7 +69,7 @@ export default Component.extend({
         // Otherwise, focus the "Add" button.
         if (focusEntry) {
           next(this, function() {
-            this.get('entryEvents').trigger('focus', focusEntry);
+            this.entryEvents.trigger('focus', focusEntry);
           });
         } else {
           next(this, function() {

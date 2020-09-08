@@ -25,8 +25,8 @@ export default Component.extend(FocusEntryAction, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    if (isBlank(this.get('entry.value'))) {
-      this.set('entry.value', this.get('entry.block.defaultValue') || []);
+    if (isBlank(this.entry.value)) {
+      this.set('entry.value', this.entry.block.defaultValue || []);
     }
   },
 

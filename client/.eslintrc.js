@@ -20,7 +20,15 @@ module.exports = {
   env: {
     browser: true
   },
-  rules: {},
+  rules: {
+    'ember/no-get': 'off',
+    'ember/no-incorrect-calls-with-inline-anonymous-functions': 'off',
+    'ember/no-jquery': 'off',
+    'ember/no-mixins': 'off',
+    'ember/no-new-mixins': 'off',
+    'ember/require-return-from-computed': 'off',
+    'ember/use-brace-expansion': 'off',
+  },
   overrides: [
     // node files
     {

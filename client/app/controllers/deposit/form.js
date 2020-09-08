@@ -35,7 +35,7 @@ export default Controller.extend({
     });
 
     if (firstBadEntry) {
-      this.get('entryEvents').trigger('focus', firstBadEntry);
+      this.entryEvents.trigger('focus', firstBadEntry);
       this.set('model.entry.hasInvalidEntries', true);
       return false;
     } else {
@@ -63,7 +63,7 @@ export default Controller.extend({
 
     debugDeposit() {
       if (this.validate()) {
-        this.get('deposit').debug(this.get('model'))
+        this.deposit.debug(this.model)
         .then(function(mets) {
           console.log(mets);
         });

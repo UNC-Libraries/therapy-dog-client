@@ -57,10 +57,10 @@ export default Component.extend(FocusEntryAction, {
 
   actions: {
     focusEntry() {
-      let first = this.get('entries').get(0);
+      let first = this.entries.get(0);
 
       if (first && first instanceof ValueEntry) {
-        this.get('entryEvents').trigger('focus', first);
+        this.entryEvents.trigger('focus', first);
       }
     }
   }

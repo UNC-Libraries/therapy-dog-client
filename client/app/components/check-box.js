@@ -20,14 +20,14 @@ export default Component.extend({
   attributeBindings: ['checked', 'type', 'value'],
 
   checked: computed('value', 'groupValue', function() {
-    return this.get('groupValue').includes(this.get('value'));
+    return this.groupValue.includes(this.value);
   }),
 
   change: function () {
     if (this.element.checked) {
-      this.get('groupValue').addObject(this.get('value'));
+      this.groupValue.addObject(this.value);
     } else {
-      this.get('groupValue').removeObject(this.get('value'));
+      this.groupValue.removeObject(this.value);
     }
   }
 });

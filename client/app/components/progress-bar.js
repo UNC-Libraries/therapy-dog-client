@@ -18,6 +18,6 @@ export default Component.extend({
 
   didRender() {
     this._super(...arguments);
-    this.element.style.width = (this.get('fraction') * 100) + '%';
+    this.element.style.width = (this.fraction * 100) + '%';
   }
 });

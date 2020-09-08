@@ -37,7 +37,7 @@ export default Component.extend(FocusEntryAction, {
 
     let options = this.get('entry.block.options');
     if (isArray(options)) {
-      jQuery('.autocomplete').autocomplete({
+      jQuery('.autocomplete', this.element).autocomplete({
         source: options
       });
     }
@@ -48,7 +48,7 @@ export default Component.extend(FocusEntryAction, {
 
     let options = this.get('entry.block.options');
     if (isArray(options)) {
-      jQuery('.autocomplete').autocomplete('destroy');
+      jQuery('.autocomplete', this.element).autocomplete('destroy');
     }
   },
 

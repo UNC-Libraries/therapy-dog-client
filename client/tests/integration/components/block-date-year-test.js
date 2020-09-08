@@ -13,15 +13,15 @@
 // limitations under the License.
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
+import EmberObject from '@ember/object';
 import { render, find, fillIn } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import ValueEntry from 'therapy-dog/utils/value-entry';
-import Ember from 'ember';
 
 module('block-text', 'Integration | Component | Date block with year precision', async function(hooks) {
   setupRenderingTest(hooks);
 
-  let block = Ember.Object.create({
+  let block = EmberObject.create({
     type: 'date',
     key: 'year',
     label: 'Year',

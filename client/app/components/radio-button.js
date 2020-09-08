@@ -20,10 +20,10 @@ export default Component.extend({
   attributeBindings: ['checked', 'type', 'value', 'name'],
 
   checked: computed('value', 'groupValue', function() {
-    return this.get('groupValue') === this.get('value');
+    return this.groupValue === this.value;
   }),
 
   change: function () {
-    this.set('groupValue', this.get('value'));
+    this.set('groupValue', this.value);
   }
 });

@@ -12,15 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 import Ember from 'ember';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend({
+export default Route.extend({
   titleToken(model) {
     return model.get('form.title');
   },
-  
+
   deposit: Ember.inject.service(),
-  
+
   model(params) {
-    return this.get('deposit').get(params.form_id);
+    return this.deposit.get(params.form_id);
   }
 });

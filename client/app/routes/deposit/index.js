@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 import Ember from 'ember';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend({
+export default Route.extend({
   deposit: Ember.inject.service(),
-  
+
   renderTemplate: function(controller, model) {
     if (model.get('authorized')) {
       this.render('deposit/form', { model });
@@ -23,14 +24,14 @@ export default Ember.Route.extend({
       this.render('deposit/login', { model });
     }
   },
-  
+
   actions: {
     deposit() {
       let deposit = this.modelFor('deposit');
-      let promise = this.get('deposit').submit(deposit);
-      
+      let promise = this.deposit.submit(deposit);
+
       this.render('deposit/loading');
-      
+
       promise
       .then((result) => {
         deposit.set('result', result);

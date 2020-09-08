@@ -57,7 +57,7 @@ export default Component.extend(FocusEntryAction, {
   }.on('didInsertElement'),
 
   acceptsNewUpload: computed('uploads.length', 'isMultiple', function() {
-    let count = this.get('uploads.length'), multiple = this.get('isMultiple');
+    let count = this.get('uploads.length'), multiple = this.isMultiple;
 
     if (!multiple && count > 0) {
       return false;
@@ -67,45 +67,54 @@ export default Component.extend(FocusEntryAction, {
   }),
 
   uploadFile: function(file) {
-    let upload = this.get('uploader').upload(file);
+    let upload = this.uploader.upload(file);
 
     upload.on('complete', (response) => {
-      if (this.get('isMultiple')) {
+      if (this.isMultiple) {
         this.get('entry.value').pushObject(response.id);
       } else {
         this.set('entry.value', response.id);
       }
 
-      if (!this.get('isMultiple')) {
+      if (!this.isMultiple) {
         scheduleOnce('afterRender', this, function() {
-          this.element.querySelector('input').focus();
+          let inputBox = this.element.querySelector('input');
+          if (inputBox !== null)  {
+            inputBox.focus();
+          }
         });
       }
     });
 
     upload.on('error', () => {
-      if (!this.get('isMultiple')) {
+      if (!this.isMultiple) {
         scheduleOnce('afterRender', this, function() {
-          this.element.querySelector('input').focus();
+          let inputBox = this.element.querySelector('input');
+          if (inputBox !== null)  {
+            inputBox.focus();
+          }
         });
       }
     });
 
-    this.get('uploads').pushObject(upload);
+    this.uploads.pushObject(upload);
 
-    if (!this.get('isMultiple')) {
+    if (!this.isMultiple) {
       scheduleOnce('afterRender', this, function() {
-        this.element.querySelector('input').focus();
+        let inputBox = this.element.querySelector('input');
+        if (inputBox !== null)  {
+          inputBox.focus();
+        }
       });
     }
   },
 
   removeUpload(upload) {
-    let uploads = this.get('uploads');
+    let uploads = this.uploads;
     let removedIndex = uploads.indexOf(upload);
     uploads.removeObject(upload);
 
-    if (!this.get('isMultiple')) {
+    if (!this.isMultiple) {
       scheduleOnce('afterRender', this, function() {
         this.element.querySelector('input[type="file"]').focus();
       });
@@ -120,9 +129,12 @@ export default Component.extend(FocusEntryAction, {
 
       next(this, function() {
         if (focusIndex === -1) {
-          this.element.querySelector('input').focus();
+          let inputBox = this.element.querySelector('input');
+          if (inputBox !== null)  {
+            inputBox.focus();
+          }
         } else {
-          jQuery('.upload').eq(focusIndex).find('button, input').eq(0).focus();
+          jQuery('.upload', this.element).eq(focusIndex).find('button, input').eq(0).focus();
         }
       });
     }
@@ -131,12 +143,12 @@ export default Component.extend(FocusEntryAction, {
   actions: {
     choose: function(fileList) {
       if (fileList.length > 0) {
-        if (this.get('isMultiple')) {
+        if (this.isMultiple) {
           for (let i = 0; i < fileList.length; i++) {
             this.uploadFile(fileList[i]);
           }
         } else {
-          this.get('uploads').clear();
+          this.uploads.clear();
           this.uploadFile(fileList[0]);
         }
       }
@@ -152,8 +164,8 @@ export default Component.extend(FocusEntryAction, {
     },
 
     remove(upload) {
-      if (this.get('isMultiple')) {
-        this.get('entry.value').removeObject(upload.response.id);
+      if (this.isMultiple) {
+        this.entry.value.removeObject(upload.response.id);
       } else {
         this.set('entry.value', null);
       }
@@ -162,7 +174,10 @@ export default Component.extend(FocusEntryAction, {
     },
 
     focusEntry() {
-      this.element.querySelector('input').focus();
+      let inputBox = this.element.querySelector('input');
+      if (inputBox !== null)  {
+        inputBox.focus();
+      }
     },
 
     focusInput() {
