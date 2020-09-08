@@ -11,11 +11,11 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import Ember from 'ember';
 import Mixin from '@ember/object/mixin';
+import { inject as service } from '@ember/service';
 
 export default Mixin.create({
-  entryEvents: Ember.inject.service(),
+  entryEvents: service('entryEvents'),
 
   didInsertElement: function() {
     this._super(...arguments);

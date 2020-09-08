@@ -11,14 +11,14 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import Ember from 'ember';
 import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
 import ObjectEntry from 'therapy-dog/utils/object-entry';
 
 export default Controller.extend({
-  entryEvents: Ember.inject.service(),
-  uploader: Ember.inject.service(),
-  deposit: Ember.inject.service(),
+  entryEvents: service('entryEvents'),
+  uploader: service('uploader'),
+  deposit: service('deposit'),
 
   validate() {
     if (this.get('uploader.anyLoading')) {

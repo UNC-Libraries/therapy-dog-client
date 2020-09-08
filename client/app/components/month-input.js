@@ -17,21 +17,23 @@ import { isEmpty, typeOf } from '@ember/utils';
 
 export default Component.extend({
   classNames: ['month-input'],
-  monthList: [
-    {key:'', value: ''},
-    {key:'01', value: 'January'},
-    {key:'02', value: 'February'},
-    {key:'03', value: 'March'},
-    {key:'04', value: 'April'},
-    {key:'05', value: 'May'},
-    {key:'06', value: 'June'},
-    {key:'07', value: 'July'},
-    {key:'08', value: 'August'},
-    {key:'09', value: 'September'},
-    {key:'10', value: 'October'},
-    {key:'11', value: 'November'},
-    {key:'12', value: 'December'}
-  ],
+  monthList: computed(function() {
+    return [
+      {key: '', value: ''},
+      {key: '01', value: 'January'},
+      {key: '02', value: 'February'},
+      {key: '03', value: 'March'},
+      {key: '04', value: 'April'},
+      {key: '05', value: 'May'},
+      {key: '06', value: 'June'},
+      {key: '07', value: 'July'},
+      {key: '08', value: 'August'},
+      {key: '09', value: 'September'},
+      {key: '10', value: 'October'},
+      {key: '11', value: 'November'},
+      {key: '12', value: 'December'}
+    ];
+  }),
 
   value: computed('year', 'month', {
     get() {

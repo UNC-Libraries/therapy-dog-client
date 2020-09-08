@@ -11,14 +11,14 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import Ember from 'ember';
 import Component from '@ember/component';
 import { alias } from '@ember/object/computed';
 import { next } from '@ember/runloop';
+import { inject as service } from '@ember/service';
 import ObjectEntry from 'therapy-dog/utils/object-entry';
 
 export default Component.extend({
-  entryEvents: Ember.inject.service(),
+  entryEvents: service('entryEvents'),
 
   classNames: ['block', 'section'],
   classNameBindings: ['repeat', 'displayed-inline'],

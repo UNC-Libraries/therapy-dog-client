@@ -11,11 +11,11 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import Ember from 'ember';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 
 export default Route.extend({
-  deposit: Ember.inject.service(),
+  deposit: service('deposit'),
 
   renderTemplate: function(controller, model) {
     if (model.get('authorized')) {

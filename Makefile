@@ -8,7 +8,7 @@ deps: ## Install dependencies for the client and API server
 	cd client && npm install
 
 check: ## Run code style checks, linting, and unit tests.
-	cd client && jshint app
+	cd client && jshint app && npx eslint .
 
 test: ## Run tests
 	cd client && ember test

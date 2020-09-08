@@ -11,12 +11,12 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import Ember from 'ember';
 import jQuery from 'jquery';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { next, scheduleOnce } from '@ember/runloop';
+import { inject as service } from '@ember/service';
 import FocusEntryAction from 'therapy-dog/mixins/focus-entry-action';
 
 export default Component.extend(FocusEntryAction, {
@@ -31,7 +31,7 @@ export default Component.extend(FocusEntryAction, {
   invalid: alias('entry.invalid'),
   isMultiple: alias('entry.block.multiple'),
 
-  uploader: Ember.inject.service(),
+  uploader: service('uploader'),
 
   didReceiveAttrs() {
     this._super(...arguments);
@@ -44,17 +44,22 @@ export default Component.extend(FocusEntryAction, {
   },
 
   /**
+   * * NOT USED IN ADMIN APP VERSION OF FORMS
+   *
+   * Leaving here in case standalone forms app is needed again
+   * It works, but causes a ESLint linting error as currently setup
+   *
    * Adds referrer link to "contact us" link in the footer.
    * It's added here because it's the only form element that's in every form.
    * Otherwise we'd need to add a property to every form.
-   */
+   *
   addFooter: function() {
     let url = location.href;
     // Remove any parameters or hash tags
     let shortenedUrl = encodeURIComponent(url.split(/\?|#/)[0]);
     let link = document.getElementById('referrer');
     link.href = 'https://library.unc.edu/wilson/contact/?refer=' + shortenedUrl;
-  }.on('didInsertElement'),
+  }.on('didInsertElement'),  */
 
   acceptsNewUpload: computed('uploads.length', 'isMultiple', function() {
     let count = this.get('uploads.length'), multiple = this.isMultiple;
