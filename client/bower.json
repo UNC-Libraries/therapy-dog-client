@@ -1,8 +1,0 @@
-{
-  "name": "therapy-dog",
-  "dependencies": {
-    "jquery-ui": "~1.12.1",
-    "DOMPurify": "^2.0.12",
-    "moment": "^2.27.0"
-  }
-}

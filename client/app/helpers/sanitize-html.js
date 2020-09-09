@@ -13,7 +13,7 @@
 // limitations under the License.
 import { helper as buildHelper } from '@ember/component/helper';
 import { htmlSafe } from '@ember/template';
-/* globals DOMPurify */
+import DOMPurify from 'dompurify';
 
 // Add target="_blank" to links.
 DOMPurify.addHook('afterSanitizeAttributes', function(node) {

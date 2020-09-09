@@ -38,16 +38,12 @@ module.exports = function(defaults) {
 
   app.import('vendor/normalize.css');
 
-  app.import(path.join(app.bowerDirectory, 'DOMPurify/dist/purify.min.js'));
+  app.import('vendor/jquery-ui/jquery-ui.js');
+  app.import('vendor/jquery-ui/ui/widgets/datepicker.js');
+  app.import('vendor/jquery-ui/ui/widgets/autocomplete.js');
+  app.import('vendor/jquery-ui/themes/base/jquery-ui.css');
 
-  app.import(path.join(app.bowerDirectory, 'jquery-ui/jquery-ui.js'));
-  app.import(path.join(app.bowerDirectory, 'jquery-ui/ui/widgets/datepicker.js'));
-  app.import(path.join(app.bowerDirectory, 'jquery-ui/ui/widgets/autocomplete.js'));
-  app.import(path.join(app.bowerDirectory, 'jquery-ui/themes/base/jquery-ui.css'));
-
-  app.import(path.join(app.bowerDirectory, 'moment/moment.js'));
-
-  let imagesDir = path.join(app.bowerDirectory, 'jquery-ui/themes/base/images');
+  let imagesDir = 'vendor/jquery-ui/themes/base/images';
   fs.readdirSync(imagesDir).forEach(function(file) {
     app.import(path.join(imagesDir, file), { destDir: "/assets/images" });
   });
