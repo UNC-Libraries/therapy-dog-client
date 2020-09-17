@@ -17,7 +17,6 @@ before_install:
     - "npm install -g npm@^6"
 install:
     - npm install babel-plugin-transform-es2015-block-scoping
-    - npm install -g bower
     - make deps
 script:
     - make check

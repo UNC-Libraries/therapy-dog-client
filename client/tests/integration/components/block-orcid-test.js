@@ -74,7 +74,7 @@ module('block-orcid', 'Integration | Component | Orcid block', function(hooks) {
 
     assert.ok(find('.block').classList.contains('invalid'));
 
-    await fillIn('input', '1234-1234-1234-1234');
+    await fillIn('input', '1234-1234-1234-12345');
     assert.ok(find('.block').classList.contains('invalid'));
   });
 
