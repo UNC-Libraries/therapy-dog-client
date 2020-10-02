@@ -11,22 +11,23 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: 'input',
   type: 'checkbox',
   attributeBindings: ['checked', 'type', 'value'],
 
-  checked: Ember.computed('value', 'groupValue', function() {
-    return this.get('groupValue').includes(this.get('value'));
+  checked: computed('value', 'groupValue', function() {
+    return this.groupValue.includes(this.value);
   }),
 
   change: function () {
     if (this.element.checked) {
-      this.get('groupValue').addObject(this.get('value'));
+      this.groupValue.addObject(this.value);
     } else {
-      this.get('groupValue').removeObject(this.get('value'));
+      this.groupValue.removeObject(this.value);
     }
   }
 });

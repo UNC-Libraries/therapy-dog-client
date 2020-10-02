@@ -11,8 +11,8 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import Ember from 'ember';
+import { run } from '@ember/runloop';
 
 export default function destroyApp(application) {
-  Ember.run(application, 'destroy');
+  run(application, 'destroy');
 }

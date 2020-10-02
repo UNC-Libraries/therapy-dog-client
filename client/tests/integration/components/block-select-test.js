@@ -11,32 +11,35 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import EmberObject from '@ember/object';
+import { render, find, findAll } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import ValueEntry from 'therapy-dog/utils/value-entry';
-import Ember from 'ember';
 
-moduleForComponent('block-select', 'Integration | Component | Select block', {
-  integration: true
-});
 
-let vocabSelectBlock = Ember.Object.create({
-  type: 'radio',
-  key: 'colors',
-  label: 'Primary Colors',
-  options: [
-    { label: 'Red', value: '#f00' },
-    { label: 'Blue', value: '#0f0' },
-    { label: 'Yellow', value: '#ff0' }
-  ]
-});
+module('block-select', 'Integration | Component | Select block', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
-  let entry = ValueEntry.create({ block: vocabSelectBlock });
-  this.set('entry', entry);
-  
-  this.render(hbs`{{block-select entry=entry}}`);
+  let vocabSelectBlock = EmberObject.create({
+    type: 'radio',
+    key: 'colors',
+    label: 'Primary Colors',
+    options: [
+      { label: 'Red', value: '#f00' },
+      { label: 'Blue', value: '#0f0' },
+      { label: 'Yellow', value: '#ff0' }
+    ]
+  });
 
-  assert.equal(this.$('label').text().trim(), 'Primary Colors');
-  assert.deepEqual(this.$('option').map((i, e) => $(e).text().trim()).get(), ['Red', 'Blue', 'Yellow']);
+  test('it renders', async function(assert) {
+    let entry = ValueEntry.create({ block: vocabSelectBlock });
+    this.set('entry', entry);
+
+    await render(hbs`{{block-select entry=entry}}`);
+
+    assert.equal(find('label').textContent.trim(), 'Primary Colors');
+    assert.deepEqual(findAll('option').map((e) => e.textContent.trim()), ['Red', 'Blue', 'Yellow']);
+  });
 });

@@ -11,86 +11,79 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import EmberObject from '@ember/object';
+import { render, find, fillIn } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import ValueEntry from 'therapy-dog/utils/value-entry';
-import Ember from 'ember';
 
-moduleForComponent('block-text', 'Integration | Component | Date block with admin precision', {
-  integration: true
-});
+module('block-text', 'Integration | Component | Date block with admin precision', async function(hooks) {
+  setupRenderingTest(hooks);
 
-let block = Ember.Object.create({
-  type: 'date',
-  key: 'date',
-  label: 'Date',
-  precision: 'admin'
-});
+  let block = EmberObject.create({
+    type: 'date',
+    key: 'date',
+    label: 'Date',
+    precision: 'admin'
+  });
 
-test('it renders', function(assert) {
-  let entry = ValueEntry.create({ block });
-  this.set('entry', entry);
+  test('it renders', async function(assert) {
+    let entry = ValueEntry.create({ block });
+    this.set('entry', entry);
 
-  this.render(hbs`{{block-date entry=entry}}`);
+    await render(hbs`{{block-date entry=entry}}`);
 
-  assert.equal(this.$('label').text().trim(), 'Date');
-  assert.equal(this.$('input').val(), '');
-});
+    assert.equal(find('label').textContent.trim(), 'Date');
+    assert.equal(find('input').value, '');
+  });
 
-test('it sets the value', function(assert) {
-  let entry = ValueEntry.create({ block });
-  this.set('entry', entry);
+  test('it sets the value', async function(assert) {
+    let entry = ValueEntry.create({ block });
+    this.set('entry', entry);
 
-  this.render(hbs`{{block-date entry=entry}}`);
+    await render(hbs`{{block-date entry=entry}}`);
 
-  this.$('input').val('2016').change();
+    await fillIn('input', '2016');
+    assert.equal(entry.get('value'), '2016');
 
-  assert.equal(entry.get('value'), '2016');
+    await fillIn('input', '2016-04');
+    assert.equal(entry.get('value'), '2016-04');
 
-  this.$('input').val('2016-04').change();
+    await fillIn('input', '2016-04-08');
+    assert.equal(entry.get('value'), '2016-04-08');
+  });
 
-  assert.equal(entry.get('value'), '2016-04');
+  test('the entry is valid if blank', async function(assert) {
+    let entry = ValueEntry.create({ block });
+    this.set('entry', entry);
 
-  this.$('input').val('2016-04-08').change();
+    await render(hbs`{{block-date entry=entry}}`);
 
-  assert.equal(entry.get('value'), '2016-04-08');
-});
+    await fillIn('input', '');
+    assert.equal(entry.get('value'), '');
+    assert.notOk(entry.get('invalid'), 'should be a valid date');
+  });
 
-test('the entry is valid if blank', function(assert) {
-  let entry = ValueEntry.create({ block });
-  this.set('entry', entry);
+  test('the entry is invalid for invalid input', async function(assert) {
+    let entry = ValueEntry.create({ block });
+    this.set('entry', entry);
 
-  this.render(hbs`{{block-date entry=entry}}`);
+    await render(hbs`{{block-date entry=entry}}`);
 
-  this.$('input').val('').change();
+    await fillIn('input', 'abc');
+    assert.equal(entry.get('value'), 'abc');
+    assert.ok(entry.get('invalid'), 'should not be a valid date');
 
-  assert.equal(entry.get('value'), '');
-  assert.notOk(entry.get('invalid'), 'should be a valid date');
-});
+    await fillIn('input', '5');
+    assert.equal(entry.get('value'), '5');
+    assert.ok(entry.get('invalid'), 'should not be a valid date');
 
-test('the entry is invalid for invalid input', function(assert) {
-  let entry = ValueEntry.create({ block });
-  this.set('entry', entry);
+    await fillIn('input', '2005-');
+    assert.ok(entry.get('invalid'), 'should not be a valid date');
 
-  this.render(hbs`{{block-date entry=entry}}`);
-
-  this.$('input').val('abc').change();
-
-  assert.equal(entry.get('value'), 'abc');
-  assert.ok(entry.get('invalid'), 'should not be a valid date');
-
-  this.$('input').val('5').change();
-
-  assert.equal(entry.get('value'), '5');
-  assert.ok(entry.get('invalid'), 'should not be a valid date');
-
-  this.$('input').val('2005-').change();
-
-  assert.equal(entry.get('value'), '2005-');
-  assert.ok(entry.get('invalid'), 'should not be a valid date');
-
-  this.$('input').val('2005-04-').change();
-
-  assert.equal(entry.get('value'), '2005-04-');
-  assert.ok(entry.get('invalid'), 'should not be a valid date');
+    await fillIn('input', '2005-04-');
+    assert.equal(entry.get('value'), '2005-04-');
+    assert.ok(entry.get('invalid'), 'should not be a valid date');
+  });
 });

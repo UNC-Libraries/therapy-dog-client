@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import Ember from 'ember';
+import Service from '@ember/service';
+import Evented from '@ember/object/evented';
 
-export default Ember.Service.extend(Ember.Evented);
+export default Service.extend(Evented);

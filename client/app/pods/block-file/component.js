@@ -11,10 +11,15 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import Ember from 'ember';
+import jQuery from 'jquery';
+import Component from '@ember/component';
+import { computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import { next, scheduleOnce } from '@ember/runloop';
+import { inject as service } from '@ember/service';
 import FocusEntryAction from 'therapy-dog/mixins/focus-entry-action';
 
-export default Ember.Component.extend(FocusEntryAction, {
+export default Component.extend(FocusEntryAction, {
   init() {
     this._super(...arguments);
     this.set('uploads', []);
@@ -22,11 +27,11 @@ export default Ember.Component.extend(FocusEntryAction, {
 
   classNames: ['block', 'file'],
   classNameBindings: ['required', 'invalid', 'isMultiple:multiple'],
-  required: Ember.computed.alias('entry.required'),
-  invalid: Ember.computed.alias('entry.invalid'),
-  isMultiple: Ember.computed.alias('entry.block.multiple'),
+  required: alias('entry.required'),
+  invalid: alias('entry.invalid'),
+  isMultiple: alias('entry.block.multiple'),
 
-  uploader: Ember.inject.service(),
+  uploader: service('uploader'),
 
   didReceiveAttrs() {
     this._super(...arguments);
@@ -39,20 +44,25 @@ export default Ember.Component.extend(FocusEntryAction, {
   },
 
   /**
+   * * NOT USED IN ADMIN APP VERSION OF FORMS
+   *
+   * Leaving here in case standalone forms app is needed again
+   * It works, but causes a ESLint linting error as currently setup
+   *
    * Adds referrer link to "contact us" link in the footer.
    * It's added here because it's the only form element that's in every form.
    * Otherwise we'd need to add a property to every form.
-   */
+   *
   addFooter: function() {
     let url = location.href;
     // Remove any parameters or hash tags
     let shortenedUrl = encodeURIComponent(url.split(/\?|#/)[0]);
     let link = document.getElementById('referrer');
     link.href = 'https://library.unc.edu/wilson/contact/?refer=' + shortenedUrl;
-  }.on('didInsertElement'),
+  }.on('didInsertElement'),  */
 
-  acceptsNewUpload: Ember.computed('uploads.length', 'isMultiple', function() {
-    let count = this.get('uploads.length'), multiple = this.get('isMultiple');
+  acceptsNewUpload: computed('uploads.length', 'isMultiple', function() {
+    let count = this.get('uploads.length'), multiple = this.isMultiple;
 
     if (!multiple && count > 0) {
       return false;
@@ -62,47 +72,56 @@ export default Ember.Component.extend(FocusEntryAction, {
   }),
 
   uploadFile: function(file) {
-    let upload = this.get('uploader').upload(file);
+    let upload = this.uploader.upload(file);
 
     upload.on('complete', (response) => {
-      if (this.get('isMultiple')) {
+      if (this.isMultiple) {
         this.get('entry.value').pushObject(response.id);
       } else {
         this.set('entry.value', response.id);
       }
 
-      if (!this.get('isMultiple')) {
-        Ember.run.scheduleOnce('afterRender', this, function() {
-          this.$('button').focus();
+      if (!this.isMultiple) {
+        scheduleOnce('afterRender', this, function() {
+          let inputBox = this.element.querySelector('input');
+          if (inputBox !== null)  {
+            inputBox.focus();
+          }
         });
       }
     });
 
     upload.on('error', () => {
-      if (!this.get('isMultiple')) {
-        Ember.run.scheduleOnce('afterRender', this, function() {
-          this.$('button').focus();
+      if (!this.isMultiple) {
+        scheduleOnce('afterRender', this, function() {
+          let inputBox = this.element.querySelector('input');
+          if (inputBox !== null)  {
+            inputBox.focus();
+          }
         });
       }
     });
 
-    this.get('uploads').pushObject(upload);
+    this.uploads.pushObject(upload);
 
-    if (!this.get('isMultiple')) {
-      Ember.run.scheduleOnce('afterRender', this, function() {
-        this.$('button').focus();
+    if (!this.isMultiple) {
+      scheduleOnce('afterRender', this, function() {
+        let inputBox = this.element.querySelector('input');
+        if (inputBox !== null)  {
+          inputBox.focus();
+        }
       });
     }
   },
 
   removeUpload(upload) {
-    let uploads = this.get('uploads');
+    let uploads = this.uploads;
     let removedIndex = uploads.indexOf(upload);
     uploads.removeObject(upload);
 
-    if (!this.get('isMultiple')) {
-      Ember.run.scheduleOnce('afterRender', this, function() {
-        this.$('input[type="file"]').focus();
+    if (!this.isMultiple) {
+      scheduleOnce('afterRender', this, function() {
+        this.element.querySelector('input[type="file"]').focus();
       });
     } else {
       let focusIndex = -1;
@@ -113,11 +132,14 @@ export default Ember.Component.extend(FocusEntryAction, {
         focusIndex = removedIndex;
       }
 
-      Ember.run.next(this, function() {
+      next(this, function() {
         if (focusIndex === -1) {
-          this.$('input').focus();
+          let inputBox = this.element.querySelector('input');
+          if (inputBox !== null)  {
+            inputBox.focus();
+          }
         } else {
-          this.$('.upload').eq(focusIndex).find('button, input').eq(0).focus();
+          jQuery('.upload', this.element).eq(focusIndex).find('button, input').eq(0).focus();
         }
       });
     }
@@ -126,12 +148,12 @@ export default Ember.Component.extend(FocusEntryAction, {
   actions: {
     choose: function(fileList) {
       if (fileList.length > 0) {
-        if (this.get('isMultiple')) {
+        if (this.isMultiple) {
           for (let i = 0; i < fileList.length; i++) {
             this.uploadFile(fileList[i]);
           }
         } else {
-          this.get('uploads').clear();
+          this.uploads.clear();
           this.uploadFile(fileList[0]);
         }
       }
@@ -147,8 +169,8 @@ export default Ember.Component.extend(FocusEntryAction, {
     },
 
     remove(upload) {
-      if (this.get('isMultiple')) {
-        this.get('entry.value').removeObject(upload.response.id);
+      if (this.isMultiple) {
+        this.entry.value.removeObject(upload.response.id);
       } else {
         this.set('entry.value', null);
       }
@@ -157,15 +179,22 @@ export default Ember.Component.extend(FocusEntryAction, {
     },
 
     focusEntry() {
-      this.$('input').focus();
+      let inputBox = this.element.querySelector('input');
+      if (inputBox !== null)  {
+        inputBox.focus();
+      }
     },
 
     focusInput() {
-      this.$('.choose-file-wrapper').addClass('file-input-focus');
+      this.element.querySelectorAll('.choose-file-wrapper').forEach((el) => {
+        el.classList.add('file-input-focus');
+      });
     },
 
     blurInput() {
-      this.$('.choose-file-wrapper').removeClass('file-input-focus');
+      this.element.querySelectorAll('.choose-file-wrapper').forEach((el) => {
+        el.classList.add('file-input-focus');
+      });
     }
   }
 });

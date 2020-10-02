@@ -11,30 +11,31 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import Ember from 'ember';
+import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
 import ObjectEntry from 'therapy-dog/utils/object-entry';
 
-export default Ember.Controller.extend({
-  entryEvents: Ember.inject.service(),
-  uploader: Ember.inject.service(),
-  deposit: Ember.inject.service(),
-  
+export default Controller.extend({
+  entryEvents: service('entryEvents'),
+  uploader: service('uploader'),
+  deposit: service('deposit'),
+
   validate() {
     if (this.get('uploader.anyLoading')) {
       return false;
     }
-    
+
     let root = this.get('model.entry');
     let firstBadEntry;
-    
+
     root.forEach(function(entry) {
       if (entry.get("invalid") && !firstBadEntry) {
         firstBadEntry = entry;
       }
     });
-    
+
     if (firstBadEntry) {
-      this.get('entryEvents').trigger('focus', firstBadEntry);
+      this.entryEvents.trigger('focus', firstBadEntry);
       this.set('model.entry.hasInvalidEntries', true);
       return false;
     } else {
@@ -42,27 +43,27 @@ export default Ember.Controller.extend({
       return true;
     }
   },
-  
+
   actions: {
     reset() {
       this.set('model.entry', ObjectEntry.create({ block: this.get('model.form') }));
     },
-    
+
     dump() {
       console.log(JSON.stringify(this.get('model.entry').flatten()));
     },
-    
+
     deposit() {
       return this.validate();
     },
-    
+
     validate() {
       this.validate();
     },
-    
+
     debugDeposit() {
       if (this.validate()) {
-        this.get('deposit').debug(this.get('model'))
+        this.deposit.debug(this.model)
         .then(function(mets) {
           console.log(mets);
         });

@@ -5,11 +5,11 @@
     <p>Your deposit was successful and is being processed. In the next hour, you should receive a deposit receipt email confirming your submission.</p>
   {{else}}
     <h2>Deposit Failed</h2>
-    
+
     <p>There was an error submitting your deposit.</p>
   {{/if}}
 
-  {{partial "deposit/contact"}}
+  <Add @model={{ model }} />
 
   {{#if model.result.addAnother}}
     <p>Add another {{model.result.addAnotherText}} in the current <a href="{{model.result.path}}">collection</a></p>

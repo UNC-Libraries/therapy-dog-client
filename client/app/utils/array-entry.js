@@ -11,22 +11,22 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 
-export default Ember.Object.extend({
+export default EmberObject.extend({
   flatten() {
-    let value = this.get('value');
-    
+    let value = this.value;
+
     return value.map(function(item) {
       return item.flatten();
     });
   },
-  
+
   forEach(iterator) {
     iterator(this);
-    
-    let value = this.get('value');
-    
+
+    let value = this.value;
+
     value.forEach(function(item) {
       item.forEach(iterator);
     });

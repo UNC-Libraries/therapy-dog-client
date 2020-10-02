@@ -11,15 +11,15 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
 import { parameterValue } from 'therapy-dog/utils/get-parameter';
 
 export function isAdminForm() {
   if (parameterValue('adminOnly') === 'true') {
     return 'in-admin-iframe';
   }
-	
+
   return '';
 }
 
-export default Ember.Helper.helper(isAdminForm);
+export default buildHelper(isAdminForm);

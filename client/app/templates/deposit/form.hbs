@@ -9,11 +9,11 @@
 
 <div id="form" class={{if model.entry.hasInvalidEntries "invalid" ""}}>
   <p class="description">{{sanitize-html model.form.description}}</p>
-  
-  <p class="required-fields-description">Fields marked with <span class="required-example">*</span> are required.<span>{{partial "deposit/contact"}}</span></p>
-  
+
+  <p class="required-fields-description">Fields marked with <span class="required-example">*</span> are required.<span><ContactUs @model={{ model }} /></span></p>
+
   {{object-entry entry=model.entry}}
-  
+
   <p class="submit" {{action "deposit"}}>
     <button disabled={{if uploads.anyLoading "disabled" ""}}>Submit Deposit</button>
   </p>

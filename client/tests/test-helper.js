@@ -10,10 +10,12 @@
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
-// limitations under the License.
-import resolver from './helpers/resolver';
-import {
-  setResolver
-} from 'ember-qunit';
+// limitations under the License
+import Application from 'therapy-dog/app';
+import config from 'therapy-dog/config/environment';
+import { setApplication } from '@ember/test-helpers';
+import { start } from 'ember-qunit';
 
-setResolver(resolver);
+setApplication(Application.create(config.APP));
+
+start();

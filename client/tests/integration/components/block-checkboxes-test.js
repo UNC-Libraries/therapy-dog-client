@@ -11,119 +11,122 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import EmberObject from '@ember/object';
+import { render, find, findAll, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import ValueEntry from 'therapy-dog/utils/value-entry';
-import Ember from 'ember';
 
-moduleForComponent('block-checkboxes', 'Integration | Component | Checkboxes block', {
-  integration: true
-});
+module('block-checkboxes', 'Integration | Component | Checkboxes block', async function(hooks) {
+  setupRenderingTest(hooks);
 
-let vocabCheckboxesBlock = Ember.Object.create({
-  type: 'checkboxes',
-  key: 'colors',
-  label: 'Primary Colors',
-  options: [
-    { label: 'Red', value: '#f00' },
-    { label: 'Blue', value: '#0f0' },
-    { label: 'Yellow', value: '#ff0' }
-  ]
-});
+  let vocabCheckboxesBlock = EmberObject.create({
+    type: 'checkboxes',
+    key: 'colors',
+    label: 'Primary Colors',
+    options: [
+      { label: 'Red', value: '#f00' },
+      { label: 'Blue', value: '#0f0' },
+      { label: 'Yellow', value: '#ff0' }
+    ]
+  });
 
-let requiredCheckboxesBlock = Ember.Object.create({
-  type: 'checkboxes',
-  key: 'colors',
-  label: 'Primary Colors',
-  options: [
-    { label: 'Red', value: 'Red' },
-    { label: 'Blue', value: 'Blue' },
-    { label: 'Yellow', value: 'Yellow' }
-  ],
-  required: true
-});
+  let requiredCheckboxesBlock = EmberObject.create({
+    type: 'checkboxes',
+    key: 'colors',
+    label: 'Primary Colors',
+    options: [
+      { label: 'Red', value: 'Red' },
+      { label: 'Blue', value: 'Blue' },
+      { label: 'Yellow', value: 'Yellow' }
+    ],
+    required: true
+  });
 
-let defaultValueCheckboxesBlock = Ember.Object.create({
-  type: 'checkboxes',
-  key: 'colors',
-  label: 'Primary Colors',
-  options: [
-    { label: 'Red', value: 'Red' },
-    { label: 'Blue', value: 'Blue' },
-    { label: 'Yellow', value: 'Yellow' }
-  ],
-  defaultValue: ['Red', 'Blue']
-});
+  let defaultValueCheckboxesBlock = EmberObject.create({
+    type: 'checkboxes',
+    key: 'colors',
+    label: 'Primary Colors',
+    options: [
+      { label: 'Red', value: 'Red' },
+      { label: 'Blue', value: 'Blue' },
+      { label: 'Yellow', value: 'Yellow' }
+    ],
+    defaultValue: ['Red', 'Blue']
+  });
 
-test('it renders', function(assert) {
-  let entry = ValueEntry.create({ block: vocabCheckboxesBlock });
-  this.set('entry', entry);
-  
-  this.render(hbs`{{block-checkboxes entry=entry}}`);
+  test('it renders', async function(assert) {
+    let entry = ValueEntry.create({ block: vocabCheckboxesBlock });
+    this.set('entry', entry);
 
-  assert.equal(this.$('h2').text().trim(), 'Primary Colors');
-  assert.deepEqual(this.$('label').map((i, e) => $(e).text().trim()).get(), ['Red', 'Blue', 'Yellow']);
-});
+    await render(hbs`{{block-checkboxes entry=entry}}`);
 
-test('it sets the initial value to the empty array', function(assert) {
-  let entry = ValueEntry.create({ block: vocabCheckboxesBlock });
-  this.set('entry', entry);
-  
-  this.render(hbs`{{block-checkboxes entry=entry}}`);
-  
-  assert.deepEqual(entry.get('value'), []);
-});
+    assert.equal(find('h2').textContent.trim(), 'Primary Colors');
+    assert.deepEqual(findAll('label').map((e) => e.textContent.trim()), ['Red', 'Blue', 'Yellow']);
+  });
 
-test('it sets the initial value to the default value if present', function(assert) {
-  let entry = ValueEntry.create({ block: defaultValueCheckboxesBlock });
-  this.set('entry', entry);
-  
-  this.render(hbs`{{block-checkboxes entry=entry}}`);
-  
-  assert.deepEqual(entry.get('value'), ['Red', 'Blue']);
-  assert.ok(this.$('input').get(0).checked);
-  assert.ok(this.$('input').get(1).checked);
-});
+  test('it sets the initial value to the empty array', async function(assert) {
+    let entry = ValueEntry.create({ block: vocabCheckboxesBlock });
+    this.set('entry', entry);
 
-test('it updates the entry value with the "value" property in options when clicked', function(assert) {
-  let entry = ValueEntry.create({ block: vocabCheckboxesBlock });
-  this.set('entry', entry);
-  
-  this.render(hbs`{{block-checkboxes entry=entry}}`);
-  
-  assert.deepEqual(entry.get('value'), []);
-  
-  this.$('input').eq(0).click();
-  
-  assert.deepEqual(entry.get('value'), ['#f00']);
-  
-  this.$('input').eq(1).click();
-  
-  assert.deepEqual(entry.get('value'), ['#f00', '#0f0']);
-  
-  this.$('input').eq(0).click();
-  
-  assert.deepEqual(entry.get('value'), ['#0f0']);
-});
+    await render(hbs`{{block-checkboxes entry=entry}}`);
 
-test('it renders with the required class if required', function(assert) {
-  let entry = ValueEntry.create({ block: requiredCheckboxesBlock });
-  this.set('entry', entry);
-  
-  this.render(hbs`{{block-checkboxes entry=entry}}`);
-  
-  assert.ok(this.$('.block').hasClass('required'));
-});
+    assert.deepEqual(entry.get('value'), []);
+  });
 
-test('it is invalid with nothing checked if required', function(assert) {
-  let entry = ValueEntry.create({ block: requiredCheckboxesBlock });
-  this.set('entry', entry);
+  test('it sets the initial value to the default value if present', async function(assert) {
+    let entry = ValueEntry.create({ block: defaultValueCheckboxesBlock });
+    this.set('entry', entry);
 
-  this.render(hbs`{{block-checkboxes entry=entry}}`);
+    await render(hbs`{{block-checkboxes entry=entry}}`);
 
-  assert.ok(this.$('.block').hasClass('invalid'));
-  
-  this.$('input').eq(0).click();
+    assert.deepEqual(entry.get('value'), ['Red', 'Blue']);
 
-  assert.notOk(this.$('.block').hasClass('invalid'));
+    let inputs = findAll('input');
+
+    assert.ok(inputs.get(0).checked);
+    assert.ok(inputs.get(1).checked);
+  });
+
+  test('it updates the entry value with the "value" property in options when clicked', async function(assert) {
+    let entry = ValueEntry.create({ block: vocabCheckboxesBlock });
+    this.set('entry', entry);
+
+    await render(hbs`{{block-checkboxes entry=entry}}`);
+
+    assert.deepEqual(entry.get('value'), []);
+
+    let inputs = findAll('input');
+
+    await click(inputs.get(0));
+    assert.deepEqual(entry.get('value'), ['#f00']);
+
+    await click(inputs.get(1));
+    assert.deepEqual(entry.get('value'), ['#f00', '#0f0']);
+
+    await click(inputs.get(0));
+    assert.deepEqual(entry.get('value'), ['#0f0']);
+  });
+
+  test('it renders with the required class if required', async function(assert) {
+    let entry = ValueEntry.create({ block: requiredCheckboxesBlock });
+    this.set('entry', entry);
+
+    await render(hbs`{{block-checkboxes entry=entry}}`);
+
+    assert.ok(find('.block').classList.contains('required'));
+  });
+
+  test('it is invalid with nothing checked if required', async function(assert) {
+    let entry = ValueEntry.create({ block: requiredCheckboxesBlock });
+    this.set('entry', entry);
+
+    await render(hbs`{{block-checkboxes entry=entry}}`);
+
+    assert.ok(find('.block').classList.contains('invalid'));
+
+    await click('input');
+    assert.notOk(find('.block').classList.contains('invalid'));
+  });
 });

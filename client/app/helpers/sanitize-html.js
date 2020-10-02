@@ -11,8 +11,9 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import Ember from 'ember';
-/* globals DOMPurify */
+import { helper as buildHelper } from '@ember/component/helper';
+import { htmlSafe } from '@ember/template';
+import DOMPurify from 'dompurify';
 
 // Add target="_blank" to links.
 DOMPurify.addHook('afterSanitizeAttributes', function(node) {
@@ -21,6 +22,6 @@ DOMPurify.addHook('afterSanitizeAttributes', function(node) {
   }
 });
 
-export default Ember.Helper.helper(function(params) {
-  return Ember.String.htmlSafe(DOMPurify.sanitize(params[0]));
+export default buildHelper(function(params) {
+  return htmlSafe(DOMPurify.sanitize(params[0]));
 });

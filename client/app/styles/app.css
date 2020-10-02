@@ -45,8 +45,6 @@ html, body {
 }
 
 #footer {
-  position: absolute;
-  bottom: 0;
   height: 57px;
   width: 100%;
 }

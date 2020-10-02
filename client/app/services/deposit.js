@@ -11,7 +11,10 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import Ember from 'ember';
+import { isArray } from '@ember/array';
+import EmberObject from '@ember/object';
+import Service from '@ember/service';
+import { Promise } from 'rsvp';
 import ENV from 'therapy-dog/config/environment';
 import ObjectEntry from 'therapy-dog/utils/object-entry';
 import * as formUtils from 'therapy-dog/utils/get-parameter';
@@ -20,9 +23,9 @@ import * as formUtils from 'therapy-dog/utils/get-parameter';
 const DEPOSITOR_EMAIL_KEY = 'virtual:depositor-email';
 
 function deserializeChildren(value) {
-  if (Ember.isArray(value)) {
+  if (isArray(value)) {
     return value.map(function(block) {
-      let object = Ember.Object.create(block);
+      let object = EmberObject.create(block);
       if (block.children) {
         object.set('children', deserializeChildren(block.children));
       }
@@ -50,9 +53,9 @@ function buildPayload(deposit) {
   };
 }
 
-export default Ember.Service.extend({
+export default Service.extend({
   get(formId) {
-    return new Ember.RSVP.Promise(function(resolve, reject) {
+    return new Promise(function(resolve, reject) {
       let headers = {};
 
       if (ENV.APP.spoofRemoteUser) {
@@ -73,7 +76,7 @@ export default Ember.Service.extend({
       })
       .done(function(response) {
         let sendEmailReceipt = (response.data.attributes.sendEmailReceipt !== undefined) ? response.data.attributes.sendEmailReceipt : true;
-        let form = Ember.Object.create({
+        let form = EmberObject.create({
           id: response.data.id,
           destination: collection,
           title: response.data.attributes.title,
@@ -87,12 +90,12 @@ export default Ember.Service.extend({
 
         let depositor = null;
 
-        let depositorEmailBlock = Ember.Object.create({
+        let depositorEmailBlock = EmberObject.create({
           type: 'email',
           key: DEPOSITOR_EMAIL_KEY,
           label: 'Depositor\'s Email Address',
           required: true,
-          hide : (!sendEmailReceipt) ? true : false
+          hide : !sendEmailReceipt
         });
 
         if (response.meta.mail) {
@@ -103,18 +106,18 @@ export default Ember.Service.extend({
           depositorEmailBlock.set('defaultValue', ENV.APP.spoofMail);
         }
 
-        if (Ember.isArray(form.get('children'))) {
+        if (isArray(form.get('children'))) {
           form.get('children').push(depositorEmailBlock);
         }
 
-        let deposit = Ember.Object.create({
+        let deposit = EmberObject.create({
           authorized: response.meta.authorized,
           debug: response.meta.debug,
           form: form,
           entry: ObjectEntry.create({ block: form }),
           depositor: depositor
         });
-        
+
         resolve(deposit);
       })
       .fail(function(jqXHR, textStatus, errorThrown) {
@@ -122,7 +125,7 @@ export default Ember.Service.extend({
       });
     });
   },
-  
+
   submit(deposit) {
     let payload = buildPayload(deposit);
     let depositCollection = location.href;
@@ -137,13 +140,13 @@ export default Ember.Service.extend({
       addAnotherText: addAnotherText,
       sendEmailReceipt: payload.sendEmailReceipt
     };
-    
-    return new Ember.RSVP.Promise(function(resolve) {
+
+    return new Promise(function(resolve) {
       let headers = {};
       if (ENV.APP.spoofRemoteUser) {
         headers['remote_user'] = ENV.APP.spoofRemoteUser;
       }
-    
+
       $.ajax('/' + ENV.APP.apiNamespace + '/deposits', {
         method: 'POST',
         contentType: 'application/json',
@@ -160,16 +163,16 @@ export default Ember.Service.extend({
       });
     });
   },
-  
+
   debug(deposit) {
     let payload = buildPayload(deposit);
-    
-    return new Ember.RSVP.Promise(function(resolve, reject) {
+
+    return new Promise(function(resolve, reject) {
       let headers = {};
       if (ENV.APP.spoofRemoteUser) {
         headers['remote_user'] = ENV.APP.spoofRemoteUser;
       }
-    
+
       $.ajax('/' + ENV.APP.apiNamespace + '/deposits/debug', {
         method: 'POST',
         contentType: 'application/json',

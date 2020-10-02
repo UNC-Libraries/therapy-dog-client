@@ -11,13 +11,13 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import Ember from 'ember';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['progress-bar'],
-  
+
   didRender() {
     this._super(...arguments);
-    this.$().css('width', (this.get('fraction') * 100) + '%');
+    this.element.style.width = (this.fraction * 100) + '%';
   }
 });

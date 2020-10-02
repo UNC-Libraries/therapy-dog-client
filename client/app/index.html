@@ -9,17 +9,17 @@
 
     {{content-for "head"}}
 
-    <link rel="stylesheet" href="assets/vendor.css">
-    <link rel="stylesheet" href="assets/therapy-dog.css">
-	<link rel="stylesheet" href="assets/font-awesome-4.6.3/css/font-awesome.css">
+    <link rel="stylesheet" href="{{rootURL}}assets/font-awesome-4.6.3/css/font-awesome.css">
+    <link rel="stylesheet" href="{{rootURL}}assets/vendor.css">
+    <link rel="stylesheet" href="{{rootURL}}assets/therapy-dog.css">
 
     {{content-for "head-footer"}}
   </head>
   <body>
     {{content-for "body"}}
 
-    <script src="assets/vendor.js"></script>
-    <script src="assets/therapy-dog.js"></script>
+    <script src="{{rootURL}}assets/vendor.js"></script>
+    <script src="{{rootURL}}assets/therapy-dog.js"></script>
 
     {{content-for "body-footer"}}
   </body>

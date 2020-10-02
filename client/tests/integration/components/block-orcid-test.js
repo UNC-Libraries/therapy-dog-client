@@ -11,102 +11,94 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import EmberObject from '@ember/object';
+import { render, find, fillIn } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import ValueEntry from 'therapy-dog/utils/value-entry';
-import Ember from 'ember';
 
-moduleForComponent('block-orcid', 'Integration | Component | Orcid block', {
-  integration: true
-});
+module('block-orcid', 'Integration | Component | Orcid block', function(hooks) {
+  setupRenderingTest(hooks);
 
-let block = Ember.Object.create({
-  type: 'orcid',
-  key: 'orcid',
-  label: 'Orcid Id',
-  required: true
-});
+  let block = EmberObject.create({
+    type: 'orcid',
+    key: 'orcid',
+    label: 'Orcid Id',
+    required: true
+  });
 
-let optionalBlock = Ember.Object.create({
-  type: 'orcid',
-  key: 'orcid',
-  label: 'Orcid Id'
-});
+  let optionalBlock = EmberObject.create({
+    type: 'orcid',
+    key: 'orcid',
+    label: 'Orcid Id'
+  });
 
-test('it renders', function(assert) {
-  let entry = ValueEntry.create({ block });
-  this.set('entry', entry);
+  test('it renders', async function(assert) {
+    let entry = ValueEntry.create({ block });
+    this.set('entry', entry);
 
-  this.render(hbs`{{block-orcid entry=entry}}`);
+    await render(hbs`{{block-orcid entry=entry}}`);
 
-  assert.equal(this.$('label').text().trim(), 'Orcid Id');
-  assert.ok(this.$('.block').hasClass('required'));
-});
+    assert.equal(find('label').textContent.trim(), 'Orcid Id');
+    assert.ok(find('.block').classList.contains('required'));
+  });
 
-test('it updates the entry value when text is entered', function(assert) {
-  let entry = ValueEntry.create({ block });
-  this.set('entry', entry);
+  test('it updates the entry value when text is entered', async function(assert) {
+    let entry = ValueEntry.create({ block });
+    this.set('entry', entry);
 
-  this.render(hbs`{{block-orcid entry=entry}}`);
+    await render(hbs`{{block-orcid entry=entry}}`);
 
-  this.$('input').val('1234-1234-1234-1234');
-  this.$('input').change();
+    await fillIn('input', '1234-1234-1234-1234');
+    assert.deepEqual(entry.get('value'), '1234-1234-1234-1234');
+  });
 
-  assert.deepEqual(entry.get('value'), '1234-1234-1234-1234');
-});
+  test('it is invalid with no text entered if required', async function(assert) {
+    let entry = ValueEntry.create({ block });
+    this.set('entry', entry);
 
-test('it is invalid with no text entered if required', function(assert) {
-  let entry = ValueEntry.create({ block });
-  this.set('entry', entry);
+    await render(hbs`{{block-orcid entry=entry}}`);
 
-  this.render(hbs`{{block-orcid entry=entry}}`);
+    assert.ok(find('.block').classList.contains('invalid'));
 
-  assert.ok(this.$('.block').hasClass('invalid'));
+    await fillIn('input', '');
+    assert.ok(find('.block').classList.contains('invalid'));
+  });
 
-  this.$('input').val('');
-  this.$('input').change();
+  test('it is invalid if an invalid orcid is entered', async function(assert) {
+    let entry = ValueEntry.create({ block });
+    this.set('entry', entry);
 
-  assert.ok(this.$('.block').hasClass('invalid'));
-});
+    await render(hbs`{{block-orcid entry=entry}}`);
 
-test('it is invalid if an invalid orcid is entered', function(assert) {
-  let entry = ValueEntry.create({ block });
-  this.set('entry', entry);
+    assert.ok(find('.block').classList.contains('invalid'));
 
-  this.render(hbs`{{block-orcid entry=entry}}`);
+    await fillIn('input', '1234-1234-1234-12345');
+    assert.ok(find('.block').classList.contains('invalid'));
+  });
 
-  assert.ok(this.$('.block').hasClass('invalid'));
+  test('it is valid if an valid orcid is entered', async function(assert) {
+    let entry = ValueEntry.create({ block });
+    this.set('entry', entry);
 
-  this.$('input').val('123-1234-1234-1234');
-  this.$('input').change();
+    await render(hbs`{{block-orcid entry=entry}}`);
 
-  assert.ok(this.$('.block').hasClass('invalid'));
-});
+    assert.ok(find('.block').classList.contains('invalid'));
 
-test('it is valid if an valid orcid is entered', function(assert) {
-  let entry = ValueEntry.create({ block });
-  this.set('entry', entry);
+    await fillIn('input', 'orcid.org/1234-1234-1234-1234');
+    assert.notOk(find('.block').classList.contains('invalid'));
+  });
 
-  this.render(hbs`{{block-orcid entry=entry}}`);
+  test('it is valid with no text entered if not required', async function(assert) {
+    let entry = ValueEntry.create({ optionalBlock });
+    this.set('entry', entry);
 
-  assert.ok(this.$('.block').hasClass('invalid'));
+    await render(hbs`{{block-orcid entry=entry}}`);
 
-  this.$('input').val('orcid.org/1234-1234-1234-1234');
-  this.$('input').change();
+    assert.notOk(find('.block').classList.contains('invalid'));
 
-  assert.notOk(this.$('.block').hasClass('invalid'));
-});
-
-test('it is valid with no text entered if not required', function(assert) {
-  let entry = ValueEntry.create({ optionalBlock });
-  this.set('entry', entry);
-
-  this.render(hbs`{{block-orcid entry=entry}}`);
-
-  assert.notOk(this.$('.block').hasClass('invalid'));
-
-  this.$('input').val('');
-  this.$('input').change();
-
-  assert.notOk(this.$('.block').hasClass('invalid'));
+    await  fillIn('input', '');
+    assert.notOk(find('.block').classList.contains('invalid'));
+  });
 });

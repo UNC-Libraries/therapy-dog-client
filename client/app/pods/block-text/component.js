@@ -11,19 +11,23 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import Ember from 'ember';
+import jQuery from 'jquery';
+import { isArray } from '@ember/array';
+import Component from '@ember/component';
+import { alias } from '@ember/object/computed';
+import { isBlank } from '@ember/utils';
 import FocusEntryAction from 'therapy-dog/mixins/focus-entry-action';
 
-export default Ember.Component.extend(FocusEntryAction, {
+export default Component.extend(FocusEntryAction, {
   classNames: ['block', 'text'],
   classNameBindings: ['required', 'invalid'],
-  required: Ember.computed.alias('entry.required'),
-  invalid: Ember.computed.alias('entry.invalid'),
+  required: alias('entry.required'),
+  invalid: alias('entry.invalid'),
 
   didReceiveAttrs() {
     this._super(...arguments);
-    
-    if (Ember.isBlank(this.get('entry.value'))) {
+
+    if (isBlank(this.get('entry.value'))) {
       this.set('entry.value', this.get('entry.block.defaultValue') || '');
     }
   },
@@ -32,8 +36,8 @@ export default Ember.Component.extend(FocusEntryAction, {
     this._super(...arguments);
 
     let options = this.get('entry.block.options');
-    if (Ember.isArray(options)) {
-      this.$('.autocomplete').autocomplete({
+    if (isArray(options)) {
+      jQuery('.autocomplete', this.element).autocomplete({
         source: options
       });
     }
@@ -43,14 +47,14 @@ export default Ember.Component.extend(FocusEntryAction, {
     this._super(...arguments);
 
     let options = this.get('entry.block.options');
-    if (Ember.isArray(options)) {
-      this.$('.autocomplete').autocomplete('destroy');
+    if (isArray(options)) {
+      jQuery('.autocomplete', this.element).autocomplete('destroy');
     }
   },
-  
+
   actions: {
     focusEntry: function() {
-      this.$('input').focus();
+      this.element.querySelector('input').focus();
     }
   }
 });

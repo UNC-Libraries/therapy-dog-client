@@ -11,54 +11,52 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import EmberObject from '@ember/object';
+import { render, fillIn, find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import ValueEntry from 'therapy-dog/utils/value-entry';
-import Ember from 'ember';
 
-moduleForComponent('block-text', 'Integration | Component | Text block', {
-  integration: true
-});
+module('block-text', 'Integration | Component | Text block', function(hooks) {
+  setupRenderingTest(hooks);
 
-let block = Ember.Object.create({
-  type: 'text',
-  key: 'first-name',
-  label: 'First Name',
-  required: true
-});
+  let block = EmberObject.create({
+    type: 'text',
+    key: 'first-name',
+    label: 'First Name',
+    required: true
+  });
 
-test('it renders', function(assert) {
-  let entry = ValueEntry.create({ block });
-  this.set('entry', entry);
-  
-  this.render(hbs`{{block-text entry=entry}}`);
+  test('it renders', async function(assert) {
+    let entry = ValueEntry.create({ block });
+    this.set('entry', entry);
 
-  assert.equal(this.$('label').text().trim(), 'First Name');
-  assert.ok(this.$('.block').hasClass('required'));
-});
+    await render(hbs`{{block-text entry=entry}}`);
 
-test('it updates the entry value when text is entered', function(assert) {
-  let entry = ValueEntry.create({ block });
-  this.set('entry', entry);
-  
-  this.render(hbs`{{block-text entry=entry}}`);
-  
-  this.$('input').val('Someone');
-  this.$('input').change();
-  
-  assert.deepEqual(entry.get('value'), 'Someone');
-});
+    assert.equal(find('label').textContent.trim(), 'First Name');
+    assert.ok(find('.block').classList.contains('required'));
+  });
 
-test('it is invalid with no text entered if required', function(assert) {
-  let entry = ValueEntry.create({ block });
-  this.set('entry', entry);
+  test('it updates the entry value when text is entered', async function(assert) {
+    let entry = ValueEntry.create({ block });
+    this.set('entry', entry);
 
-  this.render(hbs`{{block-text entry=entry}}`);
-  
-  assert.ok(this.$('.block').hasClass('invalid'));
-  
-  this.$('input').val('Someone');
-  this.$('input').change();
+    await render(hbs`{{block-text entry=entry}}`);
 
-  assert.notOk(this.$('.block').hasClass('invalid'));
+    await fillIn('input', 'Someone');
+    assert.deepEqual(entry.get('value'), 'Someone');
+  });
+
+  test('it is invalid with no text entered if required', async function(assert) {
+    let entry = ValueEntry.create({ block });
+    this.set('entry', entry);
+
+    await render(hbs`{{block-text entry=entry}}`);
+
+    assert.ok(find('.block').classList.contains('invalid'));
+
+    await fillIn('input','Someone');
+    assert.notOk(find('.block').classList.contains('invalid'));
+  });
 });
