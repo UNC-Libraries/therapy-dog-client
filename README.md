@@ -1,5 +1,7 @@
 # Therapy Dog - Client (Deposit Forms)
 
+![Build](https://github.com/UNC-Libraries/therapy-dog-client/workflows/Build/badge.svg)
+
 This is a Node.js and Ember application that provides:
 
   - flexible forms for collecting files and metadata,
