@@ -9,7 +9,7 @@
     <option value=""></option>
   {{/if}}
   {{#each entry.block.options as |opt|}}
-    {{#if (eq entry.value option.value)}}
+    {{#if (eq entry.value opt.value)}}
       <option selected="selected" value={{opt.value}}>
         {{gsub-nbsp opt.label}}
         {{#if opt.note}}&mdash; {{sanitize-html opt.note}}{{/if}}
