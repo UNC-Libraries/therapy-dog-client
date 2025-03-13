@@ -1,13 +1,13 @@
-<label for={{object-guid entry}}>{{entry.block.label}}</label>
+<label for={{object-guid @entry}}>{{@entry.block.label}}</label>
 
-{{#if entry.block.note}}
-  <p class="note">{{sanitize-html entry.block.note}}</p>
+{{#if @entry.block.note}}
+  <p class="note">{{sanitize-html @entry.block.note}}</p>
 {{/if}}
 
 <ul class="tagit">
-  {{#each entry.block.defaultValue as |tag|}}
+  {{#each @entry.block.defaultValue as |tag|}}
     <li>{{tag}}</li>
   {{/each}}
 </ul>
 
-{{entry-error-messages entry=entry}}
+{{entry-error-messages entry=@entry}}

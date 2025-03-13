@@ -14,7 +14,13 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import EmberObject from '@ember/object';
-import { render, find, findAll, fillIn, click } from '@ember/test-helpers';
+import {
+  render,
+  find,
+  findAll,
+  fillIn,
+  click
+} from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import ArrayEntry from 'therapy-dog/utils/array-entry';
 

@@ -1,9 +1,9 @@
-<label for={{object-guid entry}}>{{entry.block.label}}</label>
+<label for={{object-guid @entry}}>{{@entry.block.label}}</label>
 
-{{#if entry.block.note}}
-  <p class="note">{{sanitize-html entry.block.note}}</p>
+{{#if @entry.block.note}}
+  <p class="note">{{sanitize-html @entry.block.note}}</p>
 {{/if}}
 
-{{input value=entry.value type="orcid" class="autocomplete" placeholder=entry.block.placeholder id=(object-guid entry)}}
+{{input value=@entry.value type="orcid" class="autocomplete" placeholder=@entry.block.placeholder id=(object-guid @entry)}}
 
-{{entry-error-messages entry=entry}}
+{{entry-error-messages entry=@entry}}

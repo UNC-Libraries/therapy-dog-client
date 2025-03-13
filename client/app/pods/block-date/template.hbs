@@ -1,20 +1,20 @@
 <fieldset>
 <legend>
-  {{#if (eq entry.block.precision "month")}}
-  <h2>{{entry.block.label}}</h2>
+  {{#if (eq @entry.block.precision "month")}}
+  <h2>{{@entry.block.label}}</h2>
   {{else}}
-  <label for={{object-guid entry}}>{{entry.block.label}}</label>
+  <label for={{object-guid @entry}}>{{@entry.block.label}}</label>
   {{/if}}
 </legend>
 
-{{#if entry.block.note}}
-  <p class="note">{{sanitize-html entry.block.note}}</p>
+{{#if @entry.block.note}}
+  <p class="note">{{sanitize-html @entry.block.note}}</p>
 {{/if}}
 
-{{#if entry.block.options}}
-  <select onchange={{action "change" value="target.value"}} id={{object-guid entry}}>
-    {{#each entry.block.options as |opt|}}
-      {{#if (eq entry.value option.value)}}
+{{#if @entry.block.options}}
+  <select onchange={{action "change" value="target.value"}} id={{object-guid @entry}}>
+    {{#each @entry.block.options as |opt|}}
+      {{#if (eq @entry.value @option.value)}}
         <option selected="selected" value={{opt.value}}>
           {{gsub-nbsp opt.label}}
           {{#if opt.note}}&mdash; {{sanitize-html opt.note}}{{/if}}
@@ -30,18 +30,18 @@
 {{else}}
   {{#if (eq precision "day")}}
     {{#if supportsDateInput}}
-      {{input type="date" value=entry.value id=(object-guid entry)}}
+      {{input type="date" value=@entry.value id=(object-guid @entry)}}
     {{else}}
-      {{input type="text" value=entry.value class="datepicker" placeholder="YYYY-MM-DD" id=(object-guid entry)}}
+      {{input type="text" value=@entry.value class="datepicker" placeholder="YYYY-MM-DD" id=(object-guid @entry)}}
     {{/if}}
   {{else if (eq precision "admin")}}
-    {{input class="admin-date-block" value=entry.value placeholder="YYYY or YYYY-MM or YYYY-MM-DD" id=(object-guid entry)}}
+    {{input class="admin-date-block" value=@entry.value placeholder="YYYY or YYYY-MM or YYYY-MM-DD" id=(object-guid @entry)}}
   {{else if (eq precision "month")}}
-    {{month-input value=entry.value id=(object-guid entry)}}
+    {{month-input value=@entry.value id=(object-guid @entry)}}
   {{else if (eq precision "year")}}
-    {{input value=entry.value placeholder="YYYY" id=(object-guid entry)}}
+    {{input value=@entry.value placeholder="YYYY" id=(object-guid @entry)}}
   {{/if}}
 {{/if}}
 </fieldset>
 
-{{entry-error-messages entry=entry}}
+{{entry-error-messages entry=@entry}}

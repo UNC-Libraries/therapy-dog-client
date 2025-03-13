@@ -11,8 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import EmberObject from '@ember/object';
-import { computed } from '@ember/object';
+import EmberObject, { computed } from '@ember/object';
 import Evented from '@ember/object/evented';
 import Service from '@ember/service';
 import ENV from 'therapy-dog/config/environment';

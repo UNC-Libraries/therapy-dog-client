@@ -1,6 +1,6 @@
-{{monthList.value}}
+{{@monthList.value}}
 <select onchange={{action "setMonth" value="target.value"}} class="month" aria-label="Month">
-  {{#each monthList as |m|}}
+  {{#each @monthList as |m|}}
     {{#if (eq month m.key)}}
       <option selected="selected" value="{{m.key}}">{{m.value}}</option>
     {{else}}
@@ -8,4 +8,4 @@
     {{/if}}
   {{/each}}
 </select>
-<input class="year" type="text" onchange={{action "setYear" value="target.value"}} value={{year}} placeholder="YYYY" aria-label="Year">
+<input class="year" type="text" onchange={{action "setYear" value="target.value"}} value={{@year}} placeholder="YYYY" aria-label="Year">

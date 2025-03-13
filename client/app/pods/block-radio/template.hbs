@@ -1,17 +1,17 @@
 <fieldset>
-<legend><h2>{{entry.block.label}}</h2></legend>
+<legend><h2>{{@entry.block.label}}</h2></legend>
 
-{{#if entry.block.note}}
-  <p class="note">{{sanitize-html entry.block.note}}</p>
+{{#if @entry.block.note}}
+  <p class="note">{{sanitize-html @entry.block.note}}</p>
 {{/if}}
 
-{{#each entry.block.options as |opt index|}}
+{{#each @entry.block.options as |opt index|}}
   <label>
-    {{radio-button value=opt.value groupValue=entry.value name=(object-guid entry)}}
+    {{radio-button value=opt.value groupValue=@entry.value name=(object-guid @entry)}}
     {{opt.label}}
     {{#if opt.note}}&mdash; {{sanitize-html opt.note}}{{/if}}
   </label>
 {{/each}}
 </fieldset>
 
-{{entry-error-messages entry=entry}}
+{{entry-error-messages entry=@entry}}

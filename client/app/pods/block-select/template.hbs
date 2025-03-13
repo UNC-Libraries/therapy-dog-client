@@ -1,15 +1,15 @@
-<label for={{object-guid entry}}>{{entry.block.label}}</label>
+<label for={{object-guid @entry}}>{{@entry.block.label}}</label>
 
-{{#if entry.block.note}}
-  <p class="note">{{sanitize-html entry.block.note}}</p>
+{{#if @entry.block.note}}
+  <p class="note">{{sanitize-html @entry.block.note}}</p>
 {{/if}}
 
-<select onchange={{action "change" value="target.value"}} id={{object-guid entry}}>
-  {{#if entry.block.allowBlank}}
+<select onchange={{action "change" value="target.value"}} id={{object-guid @entry}}>
+  {{#if @entry.block.allowBlank}}
     <option value=""></option>
   {{/if}}
-  {{#each entry.block.options as |opt|}}
-    {{#if (eq entry.value opt.value)}}
+  {{#each @entry.block.options as |opt|}}
+    {{#if (eq @entry.value opt.value)}}
       <option selected="selected" value={{opt.value}}>
         {{gsub-nbsp opt.label}}
         {{#if opt.note}}&mdash; {{sanitize-html opt.note}}{{/if}}
@@ -23,4 +23,4 @@
   {{/each}}
 </select>
 
-{{entry-error-messages entry=entry}}
+{{entry-error-messages entry=@entry}}
