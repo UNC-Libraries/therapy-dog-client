@@ -38,6 +38,7 @@ module.exports = function(defaults) {
 
   app.import('vendor/normalize.css');
 
+  app.import('node_modules/jquery/dist/jquery.min.js')
   app.import('vendor/jquery-ui/jquery-ui.js');
   app.import('vendor/jquery-ui/ui/widgets/datepicker.js');
   app.import('vendor/jquery-ui/ui/widgets/autocomplete.js');
